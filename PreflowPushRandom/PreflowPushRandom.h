@@ -17,8 +17,8 @@ public:
     PreflowPushRandom(Graph &g);
     PreflowPushRandom(const PreflowPushRandom& orig);
     virtual ~PreflowPushRandom();
+    virtual void exec();
 private:
-
 };
 
 #endif	/* PREFLOWPUSHRANDOM_H */
