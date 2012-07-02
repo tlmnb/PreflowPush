@@ -35,8 +35,9 @@ int main(int argc, char** argv) {
     Graph readGraph = Graph(sg);
     sg.close();
     
-    cout << "Graph from disk:" << endl;
-    cout << g << endl;
+    //cout << "Graph from disk:" << endl;
+    // This is broken.
+    //cout << g << endl;
 
     return 0;
 }
