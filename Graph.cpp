@@ -22,8 +22,8 @@
  */
 Graph::Graph(int V,int s, int t) {
     this->resize(V);
-    this->source = s;
-    this->target = t;
+    this->source = s-1;
+    this->target = t-1;
 }
 
 Graph::Graph(std::istream &inFile) {
