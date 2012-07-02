@@ -22,6 +22,7 @@ private:
     std::vector<std::vector<int> > adj; //adjacency matrix
     std::vector<std::vector<int> > cap; //capacity matrix
     friend std::ostream& operator<<(std::ostream&, const Graph&);
+    void resize(int V);
 };
 
 #endif	/* GRAPH_H */

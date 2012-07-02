@@ -21,11 +21,7 @@
  * |V|-1, therefore we substracted 1 from the numbers we get.
  */
 Graph::Graph(int V) {
-    numberOfNodes = V;
-    //create the empty adjacency matrix
-    (*this).adj.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
-    //create the empty capacity matrix
-    (*this).cap.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
+    this->resize(V);
     this->source = 0;
     this->target = 0;
 }
@@ -54,7 +50,7 @@ Graph::Graph(std::istream &inFile) {
         if (!gotHead1) {
             // TODO: what is a?
             int a = atoi(tokens[0].c_str());
-            numberOfNodes = atoi(tokens[1].c_str());
+            this->resize(atoi(tokens[1].c_str()));
             gotHead1 = true;
             continue;
         }
@@ -66,9 +62,16 @@ Graph::Graph(std::istream &inFile) {
             continue;
         }
         assert (gotHead2);
-        std::cout << "Adding edge: " << tokens[0] << " " << tokens[1] << " " << tokens[2] << " " << tokens[3] << " " << tokens[4] << std::endl;
+        std::cout << "Adding edge: " << tokens[0] << " " << tokens[1] << " " << tokens[2] << " " << tokens[3] << std::endl;
         addEdge(atoi(tokens[0].c_str()), atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str()));
     }
+}
+
+void Graph::resize(int V) {
+     this->numberOfNodes = V;
+     (*this).adj.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
+    //create the empty capacity matrix
+    (*this).cap.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
 }
 
 /* Method for adding edges to the adjacency matrix.
