@@ -12,6 +12,9 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Graph.cpp</itemPath>
+      <itemPath>Graph.h</itemPath>
+      <itemPath>Makefile</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -26,15 +29,22 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="Graph.cpp" ex="false" tool="1" flavor="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -55,6 +65,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Graph.cpp" ex="false" tool="1" flavor="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>
