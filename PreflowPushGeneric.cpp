@@ -18,8 +18,12 @@ PreflowPushGeneric::PreflowPushGeneric(Graph* graph) {
 
 void PreflowPushGeneric::init() {
     int a = (*this).g->getNumberOfNodes();
+    (*this).source = (*this).g->getSource();
+    (*this).target = (*this).g->getTarget();
+    // PreflowPush: step 1
     (*this).h.resize(a, 0); // set h for all nodes to 0
     (*this).e.resize(a, 0); // set e for all nodes to 0
+    // PreflowPush: step 2
     (*this).f.resize(a, std::vector<int>(a, 0)); //define "function" f
     std::vector<std::vector<int> > adj = (*this).g->getAdjacencyMatrix();
     for (int u = 0; u < adj.size(); u++) {
@@ -31,10 +35,12 @@ void PreflowPushGeneric::init() {
             }
         }
     }
-    (*this).red.resize(a, std::vector<int>(a, 0));
-    (*this).source = (*this).g->getSource();
-    (*this).target = (*this).g->getTarget();
+    // PreflowPush: step 3
     (*this).h[(*this).source] = a;
+
+    
+    
+    // PreflowPush: step 4
     std::vector<int> neighborsOf = (*this).g->getNeighbors(source);
     for (int i = 0; i < neighborsOf.size(); i++) {
         int v = neighborsOf[i];
@@ -42,6 +48,8 @@ void PreflowPushGeneric::init() {
         (*this).f[v][(*this).source] = -(*this).g->getCapacity((*this).source, v);
         (*this).e[v] = (*this).g->getCapacity((*this).source, v);
     }
+    // initialize reduced network
+    (*this).red.resize(a, std::vector<int>(a, 0));
 }
 
 void PreflowPushGeneric::updateReducedNetwork() {
