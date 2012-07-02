@@ -34,10 +34,9 @@ int main(int argc, char** argv) {
     assert (sg.is_open());
     Graph readGraph = Graph(sg);
     sg.close();
-    
-    //cout << "Graph from disk:" << endl;
-    // This is broken.
-    //cout << g << endl;
+   
+    cout << "Graph from disk:" << endl;
+    cout << g << endl;
 
     return 0;
 }
