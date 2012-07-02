@@ -7,10 +7,10 @@
 
 #include "PreflowPushRandom.h"
 
-PreflowPushRandom::PreflowPushRandom() {
+PreflowPushRandom::PreflowPushRandom(Graph &g): PreflowPushGeneric(&g) {
 }
 
-PreflowPushRandom::PreflowPushRandom(const PreflowPushRandom& orig) {
+PreflowPushRandom::PreflowPushRandom(const PreflowPushRandom& orig) : PreflowPushGeneric(orig) {
 }
 
 PreflowPushRandom::~PreflowPushRandom() {
