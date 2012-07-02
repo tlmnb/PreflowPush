@@ -1,0 +1,11 @@
+Optimalwerte zu den Testinstanzen:
+prob.01 2895
+prob.02 12532
+prob.03 273
+prob.04 1429
+prob.05 3642
+prob.06 427
+prob.07 136
+prob.08 2
+prob.09 485
+prob.10 226 
