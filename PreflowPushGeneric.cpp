@@ -67,7 +67,15 @@ void PreflowPushGeneric::updateReducedNetwork() {
     }
 }
 
-void PreflowPushGeneric::push(int u, int v) {
+/**
+ * 
+ * This method returns true if the push operation was possible.
+ * 
+ * @param u
+ * @param v
+ * @return bool indicating modification of state
+ */
+bool PreflowPushGeneric::push(int u, int v) {
     int cf = (*this).g->getCapacity(u,v)-(*this).f[u][v];
     if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && cf>0) {
         int delta = std::min((*this).e[u],cf);
@@ -75,10 +83,19 @@ void PreflowPushGeneric::push(int u, int v) {
         (*this).f[v][u] = -(*this).f[u][v];
         (*this).e[u] = (*this).e[u] - delta;
         (*this).e[v] = (*this).e[v] + delta;
+        return true;
     }
+    // no push operation possible.
+    return false;
 }
 
-void PreflowPushGeneric::lift(int u) {
+/**
+ * This method returns true if the lift operation was possible. 
+ * 
+ * @param u
+ * @return bool indicating modification of state
+ */
+bool PreflowPushGeneric::lift(int u) {
     bool hasNoEdge = false;
     for(int v=0; v<(*this).red[u].size(); v++) {
         if((*this).h[u] > (*this).h[v]) {
@@ -88,12 +105,24 @@ void PreflowPushGeneric::lift(int u) {
     }
     if((*this).isActive(u) && !hasNoEdge) {
         //TODO
+        
+        // lift operation was possible
+        return true;
+    } else {
+        // no lift operation possible
+        return false;
     }
+        
 }
 
 
 bool PreflowPushGeneric::isActive(int u) {
     return (u!=(*this).source && u!=(*this).target && (*this).e[u]>0);
+}
+
+void PreflowPushGeneric::exec(){
+    // Does not do anything. TODO: this is supposed to be abstract,
+    // but I don't know how that is done in C++.
 }
 
 PreflowPushGeneric::PreflowPushGeneric(const PreflowPushGeneric& orig) {
