@@ -13,9 +13,12 @@
 class Graph {
 public:
     Graph(int V);
+    Graph(std::istream &inFile);
     void addEdge(int u, int v, int cuv, int cvu);
 private:
     int numberOfNodes;
+    int source;
+    int target;
     std::vector<std::vector<int> > adj; //adjacency matrix
     std::vector<std::vector<int> > cap; //capacity matrix
     friend std::ostream& operator<<(std::ostream&, const Graph&);
