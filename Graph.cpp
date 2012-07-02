@@ -20,10 +20,10 @@
  * and |V|. The range of the indices of the adjacency matrix is between 0 and 
  * |V|-1, therefore we substracted 1 from the numbers we get.
  */
-Graph::Graph(int V) {
+Graph::Graph(int V,int s, int t) {
     this->resize(V);
-    this->source = 0;
-    this->target = 0;
+    this->source = s;
+    this->target = t;
 }
 
 Graph::Graph(std::istream &inFile) {
@@ -56,8 +56,8 @@ Graph::Graph(std::istream &inFile) {
         }
         if (!gotHead2) {
             assert (gotHead1);
-            source = atoi(tokens[0].c_str());
-            target = atoi(tokens[1].c_str());
+            (*this).source = atoi(tokens[0].c_str())-1;
+            (*this).target = atoi(tokens[1].c_str())-1;
             gotHead2 = true;
             continue;
         }
@@ -70,8 +70,8 @@ Graph::Graph(std::istream &inFile) {
 void Graph::resize(int V) {
      this->numberOfNodes = V;
      (*this).adj.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
-    //create the empty capacity matrix
-    (*this).cap.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
+     //create the empty capacity matrix
+     (*this).cap.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
 }
 
 /* Method for adding edges to the adjacency matrix.
@@ -83,6 +83,48 @@ void Graph::addEdge(int u, int v, int cuv, int cvu) {
         (*this).adj[v - 1][u - 1] = 1;
         (*this).cap[v - 1][u - 1] = cvu;
     }
+}
+
+int Graph::getNumberOfNodes() {
+    return (*this).numberOfNodes;
+}
+
+std::vector<std::vector<int> > Graph::getAdjacencyMatrix() {
+    return (*this).adj;
+}
+
+std::vector<std::vector<int> > Graph::getCapacityMatrix() {
+    return (*this).cap;
+}
+
+int Graph::getSource() {
+    return (*this).source;
+}
+
+int Graph::getTarget() {
+    return (*this).target;
+}
+
+int Graph::getCapacity(int u, int v) {
+    return (*this).cap[u][v];
+}
+
+std::vector<int> Graph::getNeighbors(int node) {
+    std::vector<int> output;
+    for(int i=0; i<(*this).adj[node].size(); i++) {
+        if((*this).adj[node][i]>0) {
+            output.push_back(i);
+        }
+    }
+    return output;
+}
+
+bool Graph::hasEdge(int u, int v) {
+    return ((*this).adj[u][v]>0);
+}
+
+bool Graph::hasUndirectedEdge(int u, int v) {
+    return ((*this).adj[u][v]>0|| (*this).adj[v][u]>0);
 }
 
 /* overwritten << operator

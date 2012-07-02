@@ -37,6 +37,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Graph.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/ProblemTest.o
+	${OBJECTDIR}/PreflowPushGeneric.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -83,6 +84,10 @@ ${OBJECTDIR}/ProblemTest.o: ProblemTest.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ProblemTest.o ProblemTest.cpp
+${OBJECTDIR}/PreflowPushGeneric.o: PreflowPushGeneric.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushGeneric.o PreflowPushGeneric.cpp
 
 # Subprojects
 .build-subprojects:

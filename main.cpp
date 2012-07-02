@@ -13,14 +13,14 @@
 #include <assert.h>
 #include "ProblemTest.h"
 #include <fstream>
+#include "PreflowPushGeneric.h"
 using namespace std;
 
 void printHelp() {
     std::cout << "Usage: $ ./preflowPush -f [graph] -a [Random|FIFO|Highest-Label|Excess-Scaling|Run-Tests]" << std::endl;
 }
 
-int main(int argc, char** argv) {
-        
+int main(int argc, char** argv) {        
     if (argc < 5 || string(argv[1]) != string("-f") || string(argv[3]) != string("-a"))
     {
         printHelp();
@@ -62,25 +62,14 @@ int main(int argc, char** argv) {
         std::cout << "Unknown algorithm type." << std::endl;
     }
    
-/*
-    Graph g(4);
-    g.addEdge(1, 2, 5, 0);
-    g.addEdge(1, 3, 2, 0);
-    g.addEdge(2, 3, 5, 3);
-    g.addEdge(3, 4, 7, 0);
+    Graph g(5,1,5);
+    g.addEdge(1,2,3,0);
+    g.addEdge(1,3,3,0);
+    g.addEdge(2,4,2,0);
+    g.addEdge(3,4,2,0);
+    g.addEdge(4,5,1,0);
     cout << g << endl;
-
-
-    std::ifstream sg;
-    sg.open("sampleGraph");
-    assert (sg.is_open());
-    Graph readGraph = Graph(sg);
-    sg.close();
-   
-    cout << "Graph from disk:" << endl;
-    cout << readGraph << endl;
-   */
-    
+    PreflowPushGeneric pfg(&g);
 
     return 0;
     

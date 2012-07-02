@@ -21,7 +21,7 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=GNU_1-Linux-x86
 CND_CONF=Debug
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -37,6 +37,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/Graph.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/ProblemTest.o
+
+	${OBJECTDIR}/PreflowPushGeneric.o
+
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -83,6 +86,11 @@ ${OBJECTDIR}/ProblemTest.o: ProblemTest.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ProblemTest.o ProblemTest.cpp
+
+${OBJECTDIR}/PreflowPushGeneric.o: PreflowPushGeneric.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushGeneric.o PreflowPushGeneric.cpp
 
 # Subprojects
 .build-subprojects:
