@@ -15,18 +15,18 @@
       <itemPath>Graph.cpp</itemPath>
       <itemPath>Graph.h</itemPath>
       <itemPath>Makefile</itemPath>
-      <itemPath>ProblemTest.cpp</itemPath>
-      <itemPath>ProblemTest.h</itemPath>
       <itemPath>PreflowPushGeneric.cpp</itemPath>
       <itemPath>PreflowPushGeneric.h</itemPath>
+      <itemPath>PreflowPushRandom/PreflowPushRandom.cpp</itemPath>
+      <itemPath>PreflowPushRandom/PreflowPushRandom.h</itemPath>
+      <itemPath>ProblemTest.cpp</itemPath>
+      <itemPath>ProblemTest.h</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
-      <logicalFolder name="f1" displayName="Tests" projectFiles="true" kind="TEST">
-      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -43,10 +43,27 @@
     <conf name="Debug" type="1">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>GNU_1|GNU</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="PreflowPushRandom/PreflowPushRandom.cpp"
+            ex="false"
+            tool="1"
+            flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <folder path="SourceFiles">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </folder>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
