@@ -9,18 +9,25 @@
 #include "Graph.h"
 
 PreflowPushGeneric::PreflowPushGeneric(Graph* graph) {
+
+    // erste vier Zeilen
     (*this).g = graph;
+    (*this).init();
+    (*this).updateReducedNetwork();
+}
+
+void PreflowPushGeneric::init() {
     int a = (*this).g->getNumberOfNodes();
-    (*this).h.resize(a,0); // set h for all nodes to 0
-    (*this).e.resize(a,0); // set e for all nodes to 0
+    (*this).h.resize(a, 0); // set h for all nodes to 0
+    (*this).e.resize(a, 0); // set e for all nodes to 0
     (*this).f.resize(a, std::vector<int>(a, 0)); //define "function" f
     std::vector<std::vector<int> > adj = (*this).g->getAdjacencyMatrix();
-    for(int u=0; u<adj.size(); u++) {
-        for(int v=0; v<adj[u].size(); v++) {
-            if(adj[u][v]>0) {
-                f[u][v]=0;
-                f[v][u]=0;
-                
+    for (int u = 0; u < adj.size(); u++) {
+        for (int v = 0; v < adj[u].size(); v++) {
+            if (adj[u][v] > 0) {
+                f[u][v] = 0;
+                f[v][u] = 0;
+
             }
         }
     }
@@ -29,15 +36,13 @@ PreflowPushGeneric::PreflowPushGeneric(Graph* graph) {
     (*this).target = (*this).g->getTarget();
     (*this).h[(*this).source] = a;
     std::vector<int> neighborsOf = (*this).g->getNeighbors(source);
-    for(int i=0; i<neighborsOf.size(); i++) {
+    for (int i = 0; i < neighborsOf.size(); i++) {
         int v = neighborsOf[i];
-        (*this).f[(*this).source][v] = (*this).g->getCapacity((*this).source,v);
-        (*this).f[v][(*this).source] = -(*this).g->getCapacity((*this).source,v);
-        (*this).e[v] = (*this).g->getCapacity((*this).source,v);
+        (*this).f[(*this).source][v] = (*this).g->getCapacity((*this).source, v);
+        (*this).f[v][(*this).source] = -(*this).g->getCapacity((*this).source, v);
+        (*this).e[v] = (*this).g->getCapacity((*this).source, v);
     }
-    (*this).updateReducedNetwork();
 }
-
 
 void PreflowPushGeneric::updateReducedNetwork() {
     //compute reduced network. c.f. Cormen et. al, 2001
@@ -58,7 +63,6 @@ void PreflowPushGeneric::updateReducedNetwork() {
         }
     }*/
 }
-
 
 PreflowPushGeneric::PreflowPushGeneric(const PreflowPushGeneric& orig) {
 }

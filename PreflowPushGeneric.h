@@ -18,6 +18,7 @@ public:
 private:
     Graph* g;
     void updateReducedNetwork();
+    void init();
     int source;
     int target;
     std::vector<int> h;
