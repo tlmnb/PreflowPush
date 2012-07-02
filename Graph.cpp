@@ -26,7 +26,8 @@ Graph::Graph(int V) {
     (*this).adj.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
     //create the empty capacity matrix
     (*this).cap.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
-
+    this->source = 0;
+    this->target = 0;
 }
 
 Graph::Graph(std::istream &inFile) {
@@ -65,6 +66,7 @@ Graph::Graph(std::istream &inFile) {
             continue;
         }
         assert (gotHead2);
+        std::cout << "Adding edge: " << tokens[0] << " " << tokens[1] << " " << tokens[2] << " " << tokens[3] << " " << tokens[4] << std::endl;
         addEdge(atoi(tokens[0].c_str()), atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str()));
     }
 }
@@ -83,13 +85,12 @@ void Graph::addEdge(int u, int v, int cuv, int cvu) {
 /* overwritten << operator
  */
 std::ostream& operator<<(std::ostream &strm, const Graph &g) {
-    for (int source = 0; source < g.numberOfNodes; source++) {
-        for (int target = 0; target < g.numberOfNodes; target++) {
-            if (g.adj[source][target] > 0) {
-                int w = g.cap[source][target];
-                strm << source << " -> " << target << " capacity: " << w << std::endl;
+    for (int ii = 0; ii < g.numberOfNodes; ii++) {
+        for (int jj = 0; jj < g.numberOfNodes; jj++) {
+            if (g.adj[ii][jj] > 0) {
+                int w = g.cap[ii][jj];
+                strm << ii << " -> " << jj << " capacity: " << w << std::endl;
             }
         }
     }
-
 }
