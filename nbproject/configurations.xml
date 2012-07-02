@@ -17,6 +17,8 @@
       <itemPath>Makefile</itemPath>
       <itemPath>PreflowPushGeneric.cpp</itemPath>
       <itemPath>PreflowPushGeneric.h</itemPath>
+      <itemPath>PreflowPushRandom/PreflowPushRandom.cpp</itemPath>
+      <itemPath>PreflowPushRandom/PreflowPushRandom.h</itemPath>
       <itemPath>ProblemTest.cpp</itemPath>
       <itemPath>ProblemTest.h</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -45,6 +47,23 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="PreflowPushRandom/PreflowPushRandom.cpp"
+            ex="false"
+            tool="1"
+            flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <folder path="SourceFiles">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+      </folder>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
