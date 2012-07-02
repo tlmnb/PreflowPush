@@ -11,6 +11,7 @@
 #include <fstream>
 #include "Graph.h"
 #include <assert.h>
+#include "ProblemTest.h"
 using namespace std;
 
 void printHelp() {
@@ -18,8 +19,6 @@ void printHelp() {
 }
 
 int main(int argc, char** argv) {
-
-
 
     Graph g(4);
     g.addEdge(1, 2, 5, 0);
@@ -36,8 +35,15 @@ int main(int argc, char** argv) {
     sg.close();
    
     cout << "Graph from disk:" << endl;
-    cout << g << endl;
+    cout << readGraph << endl;
 
+    
+    cout << "Running tests..." << endl;
+    ProblemTest tester;
+    tester.run();
     return 0;
+    
+    
+    
 }
 
