@@ -12,9 +12,18 @@
 
 class Graph {
 public:
-    Graph(int V);
+    Graph(int V,int t, int s);
     Graph(std::istream &inFile);
     void addEdge(int u, int v, int cuv, int cvu);
+    int getNumberOfNodes();
+    std::vector<std::vector<int> > getAdjacencyMatrix();
+    std::vector<std::vector<int> > getCapacityMatrix();
+    int getSource();
+    int getTarget();
+    std::vector<int> getNeighbors(int node);
+    int getCapacity(int u, int v);
+    bool hasEdge(int u, int v);
+    bool hasUndirectedEdge(int u, int v);
 private:
     int numberOfNodes;
     int source;

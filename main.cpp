@@ -11,6 +11,7 @@
 #include <fstream>
 #include "Graph.h"
 #include <assert.h>
+#include "PreflowPushGeneric.h"
 using namespace std;
 
 void printHelp() {
@@ -21,22 +22,24 @@ int main(int argc, char** argv) {
 
 
 
-    Graph g(4);
-    g.addEdge(1, 2, 5, 0);
-    g.addEdge(1, 3, 2, 0);
-    g.addEdge(2, 3, 5, 3);
-    g.addEdge(3, 4, 7, 0);
+    Graph g(5,1,5);
+    g.addEdge(1,2,3,0);
+    g.addEdge(1,3,3,0);
+    g.addEdge(2,4,2,0);
+    g.addEdge(3,4,2,0);
+    g.addEdge(4,5,1,0);
     cout << g << endl;
+    
+    PreflowPushGeneric pfg(&g);
 
-
-    std::ifstream sg;
+    /*std::ifstream sg;
     sg.open("sampleGraph");
     assert (sg.is_open());
     Graph readGraph = Graph(sg);
     sg.close();
    
     cout << "Graph from disk:" << endl;
-    cout << g << endl;
+    cout << g << endl;*/
 
     return 0;
 }
