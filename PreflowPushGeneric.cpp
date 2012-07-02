@@ -7,6 +7,8 @@
 
 #include "PreflowPushGeneric.h"
 #include "Graph.h"
+#include <algorithm>
+
 
 PreflowPushGeneric::PreflowPushGeneric(Graph* graph) {
 
@@ -54,22 +56,44 @@ void PreflowPushGeneric::init() {
 
 void PreflowPushGeneric::updateReducedNetwork() {
     //compute reduced network. c.f. Cormen et. al, 2001
-    /*for(int u=0; u<(*this).g->getNumberOfNodes(); u++) {
+    for(int u=0; u<(*this).g->getNumberOfNodes(); u++) {
         for(int v=0; v<(*this).g->getNumberOfNodes(); v++) {
-            if(this->g->hasUndirectedEdge(v,u)) {
-                if ((this->g->getCapacity(u,v)+f[v][u])>0) {
-                    std:: cout << u << "->" << v << std::endl;
+            if((*this).g->hasUndirectedEdge(u,v)) {
+                if( ((*this).g->getCapacity(u,v)-(*this).f[u][v])>0) {
+                        (*this).red[u][v]=1;
                 }
             }
         }
     }
-    for(int u=0; u<(*this).g->getNumberOfNodes(); u++) {
-        for(int v=0; v<(*this).g->getNumberOfNodes(); v++) {
-            if ((*this).red[u][v]==1) {
-                //std::cout << u << "->" << v << std::endl;
-            }
+}
+
+void PreflowPushGeneric::push(int u, int v) {
+    int cf = (*this).g->getCapacity(u,v)-(*this).f[u][v];
+    if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && cf>0) {
+        int delta = std::min((*this).e[u],cf);
+        (*this).f[u][v] = (*this).f[u][v] + delta;
+        (*this).f[v][u] = -(*this).f[u][v];
+        (*this).e[u] = (*this).e[u] - delta;
+        (*this).e[v] = (*this).e[v] + delta;
+    }
+}
+
+void PreflowPushGeneric::lift(int u) {
+    bool hasNoEdge = false;
+    for(int v=0; v<(*this).red[u].size(); v++) {
+        if((*this).h[u] > (*this).h[v]) {
+            hasNoEdge = true;
+            break;
         }
-    }*/
+    }
+    if((*this).isActive(u) && !hasNoEdge) {
+        //TODO
+    }
+}
+
+
+bool PreflowPushGeneric::isActive(int u) {
+    return (u!=(*this).source && u!=(*this).target && (*this).e[u]>0);
 }
 
 PreflowPushGeneric::PreflowPushGeneric(const PreflowPushGeneric& orig) {

@@ -7,6 +7,8 @@
 
 #include "Graph.h"
 
+
+
 #ifndef PREFLOWPUSHGENERIC_H
 #define	PREFLOWPUSHGENERIC_H
 
@@ -19,6 +21,10 @@ private:
     Graph* g;
     void updateReducedNetwork();
     void init();
+    void push(int u, int v);
+    void lift(int u);
+    bool isActive(int u);
+    
     int source;
     int target;
     std::vector<int> h;
