@@ -15,8 +15,14 @@
       <itemPath>Graph.cpp</itemPath>
       <itemPath>Graph.h</itemPath>
       <itemPath>Makefile</itemPath>
+      <itemPath>PreflowPushExcessScaling/PreflowPushExcessScaling.cpp</itemPath>
+      <itemPath>PreflowPushExcessScaling/PreflowPushExcessScaling.h</itemPath>
+      <itemPath>PreflowPushFIFO/PreflowPushFIFO.cpp</itemPath>
+      <itemPath>PreflowPushFIFO/PreflowPushFIFO.h</itemPath>
       <itemPath>PreflowPushGeneric.cpp</itemPath>
       <itemPath>PreflowPushGeneric.h</itemPath>
+      <itemPath>PreflowPushHighestLabel/PreflowPushHighestLabel.cpp</itemPath>
+      <itemPath>PreflowPushHighestLabel/PreflowPushHighestLabel.h</itemPath>
       <itemPath>PreflowPushRandom/PreflowPushRandom.cpp</itemPath>
       <itemPath>PreflowPushRandom/PreflowPushRandom.h</itemPath>
       <itemPath>ProblemTest.cpp</itemPath>
@@ -47,6 +53,33 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="PreflowPushExcessScaling/PreflowPushExcessScaling.cpp"
+            ex="false"
+            tool="1"
+            flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="PreflowPushFIFO/PreflowPushFIFO.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="PreflowPushHighestLabel/PreflowPushHighestLabel.cpp"
+            ex="false"
+            tool="1"
+            flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
       <item path="PreflowPushRandom/PreflowPushRandom.cpp"
             ex="false"
             tool="1"

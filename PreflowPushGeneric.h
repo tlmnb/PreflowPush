@@ -20,22 +20,21 @@ public:
     virtual void exec();
     
 protected:
+    Graph* g;
+    std::vector<int> h;
+    std::vector<int> e;
     bool push(int u, int v);
     bool lift(int u);
-    
-    std::vector<int> h;
+    bool isActive(int u);
+   
+   
 private:
-    Graph* g;
     void updateReducedNetwork();
     void init();
-
-    bool isActive(int u);
-    
+  
     int source;
     int target;
-    int size;
-    //std::vector<int> h;
-    std::vector<int> e;
+    int size;   
     std::vector<std::vector<int> > f;
     std::vector<std::vector<int> > red;
 };
