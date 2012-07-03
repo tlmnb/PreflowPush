@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/ProblemTest.o \
 	${OBJECTDIR}/PreflowPushRandom/PreflowPushRandom.o \
+	${OBJECTDIR}/PreflowPushFIFO/PreflowPushFIFO.o \
 	${OBJECTDIR}/PreflowPushGeneric.o
 
 
@@ -84,6 +85,11 @@ ${OBJECTDIR}/PreflowPushRandom/PreflowPushRandom.o: PreflowPushRandom/PreflowPus
 	${MKDIR} -p ${OBJECTDIR}/PreflowPushRandom
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushRandom/PreflowPushRandom.o PreflowPushRandom/PreflowPushRandom.cpp
+
+${OBJECTDIR}/PreflowPushFIFO/PreflowPushFIFO.o: PreflowPushFIFO/PreflowPushFIFO.cpp 
+	${MKDIR} -p ${OBJECTDIR}/PreflowPushFIFO
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushFIFO/PreflowPushFIFO.o PreflowPushFIFO/PreflowPushFIFO.cpp
 
 ${OBJECTDIR}/PreflowPushGeneric.o: PreflowPushGeneric.cpp 
 	${MKDIR} -p ${OBJECTDIR}
