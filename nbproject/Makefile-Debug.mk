@@ -39,6 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/ProblemTest.o \
 	${OBJECTDIR}/PreflowPushRandom/PreflowPushRandom.o \
 	${OBJECTDIR}/PreflowPushFIFO/PreflowPushFIFO.o \
+	${OBJECTDIR}/PreflowPushExcessScaling/PreflowPushExcessScaling.o \
+	${OBJECTDIR}/PreflowPushHighestLabel/PreflowPushHighestLabel.o \
 	${OBJECTDIR}/PreflowPushGeneric.o
 
 
@@ -90,6 +92,16 @@ ${OBJECTDIR}/PreflowPushFIFO/PreflowPushFIFO.o: PreflowPushFIFO/PreflowPushFIFO.
 	${MKDIR} -p ${OBJECTDIR}/PreflowPushFIFO
 	${RM} $@.d
 	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushFIFO/PreflowPushFIFO.o PreflowPushFIFO/PreflowPushFIFO.cpp
+
+${OBJECTDIR}/PreflowPushExcessScaling/PreflowPushExcessScaling.o: PreflowPushExcessScaling/PreflowPushExcessScaling.cpp 
+	${MKDIR} -p ${OBJECTDIR}/PreflowPushExcessScaling
+	${RM} $@.d
+	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushExcessScaling/PreflowPushExcessScaling.o PreflowPushExcessScaling/PreflowPushExcessScaling.cpp
+
+${OBJECTDIR}/PreflowPushHighestLabel/PreflowPushHighestLabel.o: PreflowPushHighestLabel/PreflowPushHighestLabel.cpp 
+	${MKDIR} -p ${OBJECTDIR}/PreflowPushHighestLabel
+	${RM} $@.d
+	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushHighestLabel/PreflowPushHighestLabel.o PreflowPushHighestLabel/PreflowPushHighestLabel.cpp
 
 ${OBJECTDIR}/PreflowPushGeneric.o: PreflowPushGeneric.cpp 
 	${MKDIR} -p ${OBJECTDIR}
