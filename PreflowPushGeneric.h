@@ -18,6 +18,7 @@ public:
     PreflowPushGeneric(const PreflowPushGeneric& orig);
     virtual ~PreflowPushGeneric();
     virtual void exec();
+    void print();
     
 protected:
     Graph* g;
@@ -31,12 +32,15 @@ protected:
 private:
     void updateReducedNetwork();
     void init();
-  
+    int cf(int u, int v);
+    
+    Graph* reduced;
+    
     int source;
     int target;
     int size;   
     std::vector<std::vector<int> > f;
-    std::vector<std::vector<int> > red;
+    
 };
 
 #endif	/* PREFLOWPUSHGENERIC_H */

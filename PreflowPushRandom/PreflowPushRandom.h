@@ -10,11 +10,11 @@
 #ifndef PREFLOWPUSHRANDOM_H
 #define	PREFLOWPUSHRANDOM_H
 
-#include "PreflowPushGeneric.h"
+#include "../PreflowPushGeneric.h"
 
 class PreflowPushRandom : public PreflowPushGeneric {
 public:
-    PreflowPushRandom(Graph &g);
+    PreflowPushRandom(Graph* g);
     PreflowPushRandom(const PreflowPushRandom& orig);
     virtual ~PreflowPushRandom();
     virtual void exec();

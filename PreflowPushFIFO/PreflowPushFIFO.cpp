@@ -8,7 +8,7 @@
 #include "PreflowPushFIFO.h"
 #include <iterator>
 
-PreflowPushFIFO::PreflowPushFIFO(Graph &g) : PreflowPushGeneric(&g) {
+PreflowPushFIFO::PreflowPushFIFO(Graph* g) : PreflowPushGeneric(g) {
 }
 
 PreflowPushFIFO::PreflowPushFIFO(const PreflowPushFIFO& orig): PreflowPushGeneric(orig) {

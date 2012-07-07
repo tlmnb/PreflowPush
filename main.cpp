@@ -14,6 +14,10 @@
 #include "ProblemTest.h"
 #include <fstream>
 #include "PreflowPushGeneric.h"
+#include "PreflowPushRandom/PreflowPushRandom.h"
+#include "PreflowPushFIFO/PreflowPushFIFO.h"
+
+
 using namespace std;
 
 void printHelp() {
@@ -28,16 +32,21 @@ int main(int argc, char** argv) {
     }
         
     string graphFile = argv[2];
-    ifstream in(graphFile.c_str());
+    ifstream in(graphFile.c_str(),ios::in);
     Graph inputGraph(in);
+    in.close();
     string algType = argv[4];
     
     if (algType == "Random"){
-        cerr << "Not implemented." << endl;
+        PreflowPushRandom pfr(&inputGraph);
+        pfr.exec();
+        pfr.print();
     }
     else if (algType == "FIFO")
     {
-        cerr << "Not implemented." << endl;
+        PreflowPushFIFO pff(&inputGraph);
+        pff.exec();
+        pff.print();
     }
     else if (algType == "Highest-Label"){
         cerr << "Not implemented." << endl;
@@ -61,7 +70,7 @@ int main(int argc, char** argv) {
     {
         std::cout << "Unknown algorithm type." << std::endl;
     }
-   
+   /*
     Graph g(5,1,5);
     g.addEdge(1,2,3,0);
     g.addEdge(1,3,3,0);
@@ -69,8 +78,9 @@ int main(int argc, char** argv) {
     g.addEdge(3,4,2,0);
     g.addEdge(4,5,1,0);
     cout << g << endl;
-    PreflowPushGeneric pfg(&g);
-
+    PreflowPushRandom pfg(&g);
+    pfg.exec();
+    pfg.print();*/
     return 0;
 }
 

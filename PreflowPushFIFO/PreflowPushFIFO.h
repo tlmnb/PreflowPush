@@ -8,14 +8,14 @@
 #ifndef PREFLOWPUSHFIFO_H
 #define	PREFLOWPUSHFIFO_H
 
-#include "PreflowPushGeneric.h"
+#include "../PreflowPushGeneric.h"
 #include <vector>
 
 using namespace std;
 
-class PreflowPushFIFO: PreflowPushGeneric {
+class PreflowPushFIFO: public PreflowPushGeneric {
 public:
-    PreflowPushFIFO(Graph &g);
+    PreflowPushFIFO(Graph* g);
     PreflowPushFIFO(const PreflowPushFIFO& orig);
     virtual ~PreflowPushFIFO();
     virtual void exec();

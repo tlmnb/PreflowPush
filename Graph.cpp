@@ -12,6 +12,8 @@
 #include <iterator>
 #include <sstream>
 #include <stdlib.h>
+#include <iostream> 
+#include <fstream>
 //#include <algorithm>
 
 
@@ -26,7 +28,37 @@ Graph::Graph(int V,int s, int t) {
     this->target = t-1;
 }
 
-Graph::Graph(std::istream &inFile) {
+Graph::Graph(std::ifstream& inFile) {
+    int V, a,s,t;
+    std::string line;
+    
+    if(!inFile.eof()) {
+        std::getline(inFile, line);
+        std::istringstream i(line);
+        i >> V >> a;
+        (*this).resize(V);
+        std::getline(inFile,line);
+        std::istringstream j(line);
+        j >> s >> t;
+        (*this).source = s-1;
+        (*this).target = t-1;
+    }
+    
+    int u, v, cuv, cvu;
+    std::istringstream *k;
+    while(!inFile.eof()) {
+        getline(inFile, line);
+        k=new std::istringstream(line);
+        *k >> u >> v >> cuv >> cvu;
+        (*this).addEdge(u,v,cuv,cvu);
+        k->clear();
+        k->str("");
+        k->seekg(0);
+    }
+    
+}
+
+/*Graph::Graph(std::istream &inFile) {
     std::string line;
 
     bool gotHead1 = false;
@@ -44,7 +76,7 @@ Graph::Graph(std::istream &inFile) {
 
         std::copy(std::istream_iterator<std::string > (iss),
                 std::istream_iterator<std::string > (),
-                std::back_inserter<std::vector<std::string> >(tokens));
+                std::back_inserter<std::vector<std::string> >(tokens));std::cout << V << " " << a << std::endl;
         // TODO: we can convert to int using istringstream, so wedge that into
         // tokenization somehow
         if (!gotHead1) {
@@ -66,10 +98,11 @@ Graph::Graph(std::istream &inFile) {
         addEdge(atoi(tokens[0].c_str()), atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str()));
     }
 }
+ * */
 
 void Graph::resize(int V) {
      this->numberOfNodes = V;
-     (*this).adj.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
+     (*this).adj.resize(numberOfNodes, std::vector<bool>(numberOfNodes, 0));
      //create the empty capacity matrix
      (*this).cap.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
 }
@@ -77,19 +110,23 @@ void Graph::resize(int V) {
 /* Method for adding edges to the adjacency matrix.
  */
 void Graph::addEdge(int u, int v, int cuv, int cvu) {
-    (*this).adj[u - 1][v - 1] = 1;
+    (*this).adj[u - 1][v - 1] = true;
     (*this).cap[u - 1][v - 1] = cuv;
     if (cvu > 0) {
-        (*this).adj[v - 1][u - 1] = 1;
+        (*this).adj[v - 1][u - 1] = true;
         (*this).cap[v - 1][u - 1] = cvu;
     }
+}
+
+void Graph::deleteEdge(int u, int v) {
+    (*this).adj[u-1][v-1] = false;
 }
 
 int Graph::getNumberOfNodes() {
     return (*this).numberOfNodes;
 }
 
-std::vector<std::vector<int> > Graph::getAdjacencyMatrix() {
+std::vector<std::vector<bool> > Graph::getAdjacencyMatrix() {
     return (*this).adj;
 }
 
@@ -112,7 +149,7 @@ int Graph::getCapacity(int u, int v) {
 std::vector<int> Graph::getNeighbors(int node) {
     std::vector<int> output;
     for(int i=0; i<(*this).adj[node].size(); i++) {
-        if((*this).adj[node][i]>0) {
+        if((*this).adj[node][i]) {
             output.push_back(i);
         }
     }
@@ -120,11 +157,11 @@ std::vector<int> Graph::getNeighbors(int node) {
 }
 
 bool Graph::hasEdge(int u, int v) {
-    return ((*this).adj[u][v]>0);
+    return ((*this).adj[u][v]);
 }
 
 bool Graph::hasUndirectedEdge(int u, int v) {
-    return ((*this).adj[u][v]>0|| (*this).adj[v][u]>0);
+    return ((*this).adj[u][v] || (*this).adj[v][u]);
 }
 
 /* overwritten << operator
@@ -132,7 +169,7 @@ bool Graph::hasUndirectedEdge(int u, int v) {
 std::ostream& operator<<(std::ostream &strm, const Graph &g) {
     for (int ii = 0; ii < g.numberOfNodes; ii++) {
         for (int jj = 0; jj < g.numberOfNodes; jj++) {
-            if (g.adj[ii][jj] > 0) {
+            if (g.adj[ii][jj]) {
                 int w = g.cap[ii][jj];
                 strm << ii << " -> " << jj << " capacity: " << w << std::endl;
             }
