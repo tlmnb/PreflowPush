@@ -20,17 +20,23 @@ void PreflowPushFIFO::exec() {
     // TODO: is there an easier way to get these?
     for (int ii = 0; ii < this->g->getNumberOfNodes(); ii++) {
         if (this->isActive(ii))
-            this->L.push_back(ii);
+        {
+            //cerr << "Initializing L with node " << ii << endl;
+            this->L.push(ii);
+        }
     }
     // p. 85
     // "Es wird jeweils für das erste Listenelement Examine aufgerufen"
-    for (vector<int>::iterator current = this->L.begin(); current < this->L.end(); current++)
-    {
-        this->examine(*current);
+    while ( ! this->L.empty())  {
+        cerr << "size of L: " << this->L.size() << endl;
+        int current = this->L.front();
+        this->L.pop();
+        this->examine(current);
     } 
 }
 // method Examine(u), sript page 85
 void PreflowPushFIFO::examine(int u) {
+    cerr << "examining u " << u << endl;
     if (this->isActive(u)) {
         // Part 1.1
         // "Solange möglich, führe Operationen Push(u,v) aus."
@@ -43,9 +49,13 @@ void PreflowPushFIFO::examine(int u) {
             for (vector<int>::iterator it = neighbors.begin(); it < neighbors.end(); it++)
             {
                 updated = (updated || this->push(u, *it));
-                // "Wird dabei e[v] > 0, dann füge v an das Ende von L"
+                // "Wird v dadurch zu einem  Überschussknoten, füge v am Ende von L ein"
+                // aus dem neuen Skript. Ist das dasselbe wie "wenn e[v] > 0"?!
                 if (this->e[*it] > 0)
-                    this->L.push_back(*it);
+                {
+                    cerr << "Enqueuing overflowing node " << *it << endl;
+                    this->L.push(*it);
+                }
             }
         } while (updated);
         // Part 1.2
@@ -53,7 +63,8 @@ void PreflowPushFIFO::examine(int u) {
         // das Endes von L, andernfalls entferne u aus L"
         // (u is already popped from the stack in exec())
         if (this->lift(u)) {
-            this->L.push_back(u);
+            cerr << "Enqueuing lifted node " << u << endl;
+            this->L.push(u);
         }
             
     }

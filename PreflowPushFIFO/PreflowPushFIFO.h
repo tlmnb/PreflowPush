@@ -9,7 +9,7 @@
 #define	PREFLOWPUSHFIFO_H
 
 #include "../PreflowPushGeneric.h"
-#include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -22,7 +22,7 @@ public:
 private:
     void examine(int u);
     // "Es gibt eine Liste L, aus der jeweils der erste Knoten abgearbeitet wird"
-    vector<int> L; 
+    queue<int> L; 
 };
 
 #endif	/* PREFLOWPUSHFIFO_H */
