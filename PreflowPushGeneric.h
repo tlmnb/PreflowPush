@@ -20,6 +20,8 @@ public:
     virtual void exec();
     void print();
     int getMaxFlow();
+    int getH(int idx);
+    int getE(int idx);
     
 protected:
     Graph* g;
