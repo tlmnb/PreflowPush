@@ -51,16 +51,18 @@ void PreflowPushGeneric::init() {
     }
     // initialize reduced network
     (*this).reduced = new Graph(a,0,0);
+    // call updateReducedNetwork for good measure 
+    (*this).updateReducedNetwork();
 }
 
 void PreflowPushGeneric::updateReducedNetwork() {
     //compute reduced network. c.f. Cormen et. al, 2001
     for(int u=0; u<(*this).g->getNumberOfNodes(); u++) {
         for(int v=0; v<(*this).g->getNumberOfNodes(); v++) {
+            std::cerr << "cf(" << u << "," << v << ") is :" << (*this).cf(u,v) << std::endl;
             if((*this).cf(u,v)>0) {
                 (*this).reduced->addEdge(u+1,v+1,0,0);
-            }
-   
+            }   
         }
     }
 }
