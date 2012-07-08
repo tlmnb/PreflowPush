@@ -15,7 +15,6 @@
 using namespace std;
 
 class ProblemTest {
-    // prevent instantiation of class
 private:
     const static int COUNT = 9;
     vector<int> results;

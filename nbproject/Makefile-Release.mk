@@ -96,7 +96,7 @@ ${OBJECTDIR}/PreflowPushFIFO/PreflowPushFIFO.o: PreflowPushFIFO/PreflowPushFIFO.
 ${OBJECTDIR}/PreflowPushExcessScaling/PreflowPushExcessScaling.o: PreflowPushExcessScaling/PreflowPushExcessScaling.cpp 
 	${MKDIR} -p ${OBJECTDIR}/PreflowPushExcessScaling
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushExcessScaling/PreflowPushExcessScaling.o PreflowPushExcessScaling/PreflowPushExcessScaling.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/PreflowPushExcessScaling/PreflowPushExcessScaling.o PreflowPushExcessScaling/PreflowPushExcessScaling.cpp
 
 ${OBJECTDIR}/PreflowPushHighestLabel/PreflowPushHighestLabel.o: PreflowPushHighestLabel/PreflowPushHighestLabel.cpp 
 	${MKDIR} -p ${OBJECTDIR}/PreflowPushHighestLabel
