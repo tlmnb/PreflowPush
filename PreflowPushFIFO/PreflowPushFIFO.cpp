@@ -18,7 +18,7 @@ void PreflowPushFIFO::exec() {
     // p. 85
     // "Zu Beginn wird L mit den nach der Initialisierung aktiven Knoten besetzt" 
     // TODO: is there an easier way to get these?
-    for (int ii = 0; ii < this->g->getNumberOfNodes(); ii) {
+    for (int ii = 0; ii < this->g->getNumberOfNodes(); ii++) {
         if (this->isActive(ii))
             this->L.push_back(ii);
     }
