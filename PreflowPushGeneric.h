@@ -19,7 +19,8 @@ public:
     virtual ~PreflowPushGeneric();
     virtual void exec();
     void print();
-    
+    int getH(int idx);
+    int getE(int idx);
 protected:
     Graph* g;
     std::vector<int> h;

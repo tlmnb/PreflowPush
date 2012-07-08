@@ -8,13 +8,23 @@
 #ifndef PREFLOWPUSHHIGHESTLABEL_H
 #define	PREFLOWPUSHHIGHESTLABEL_H
 
-class PreflowPushHighestLabel {
+#include "../PreflowPushGeneric.h"
+
+class PreflowPushHighestLabel : public PreflowPushGeneric {
 public:
-    PreflowPushHighestLabel();
+    PreflowPushHighestLabel(Graph* g);
     PreflowPushHighestLabel(const PreflowPushHighestLabel& orig);
     virtual ~PreflowPushHighestLabel();
+    virtual void exec();
 private:
-
+    class Comperator {
+        public:
+            Comperator(PreflowPushHighestLabel* phl);
+            bool operator()(const int& a, const int& b);
+            PreflowPushGeneric* phl; 
+        private:
+            
+    };
 };
 
 #endif	/* PREFLOWPUSHHIGHESTLABEL_H */

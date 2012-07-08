@@ -16,6 +16,7 @@
 #include "PreflowPushGeneric.h"
 #include "PreflowPushRandom/PreflowPushRandom.h"
 #include "PreflowPushFIFO/PreflowPushFIFO.h"
+#include "PreflowPushHighestLabel/PreflowPushHighestLabel.h"
 
 
 using namespace std;
@@ -49,7 +50,8 @@ int main(int argc, char** argv) {
         pff.print();
     }
     else if (algType == "Highest-Label"){
-        cerr << "Not implemented." << endl;
+        PreflowPushHighestLabel pfhl(&inputGraph);
+        pfhl.exec();
     }
     else if (algType == "Excess-Scaling"){
         cerr << "Not implemented." << endl;

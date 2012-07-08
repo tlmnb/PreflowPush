@@ -70,6 +70,10 @@ int PreflowPushGeneric::cf(int u, int v) {
 }
 
 
+int PreflowPushGeneric::getH(int idx) {
+    return (*this).h[idx];
+}
+
 /**
  * 
  * This method returns true if the push operation was possible.
