@@ -41,8 +41,12 @@ int main(int argc, char** argv) {
     string algType = argv[4];
     
     if (algType == "Random"){
+         cerr << "Initializing algorithm" << endl;
         PreflowPushRandom pfr(&inputGraph);
+        cerr << "Finished initializing algorithm. Now calculating max flow" << endl;
         pfr.exec();
+        cerr << "Finished calculating max flow." << endl;
+        cerr << "Max flow is: " << pfr.getMaxFlow() << endl;
         pfr.print();
     }
     else if (algType == "FIFO")
@@ -54,6 +58,7 @@ int main(int argc, char** argv) {
         cerr << "Finished calculating max flow." << endl;
         //pff.print();
         cerr << "Max flow is: " << pff.getMaxFlow() << endl;
+        pff.print();
     }
     else if (algType == "Highest-Label"){
         cerr << "Not implemented." << endl;
