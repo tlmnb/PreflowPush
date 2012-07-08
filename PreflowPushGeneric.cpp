@@ -80,11 +80,13 @@ int PreflowPushGeneric::cf(int u, int v) {
  */
 bool PreflowPushGeneric::push(int u, int v) {
     if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && (*this).cf(u,v) >0) {
+        // 1.1
         int delta = std::min((*this).e[u], (*this).cf(u,v));
         (*this).f[u][v] = (*this).f[u][v] + delta;
         (*this).f[v][u] = -(*this).f[u][v];
         (*this).e[u] = (*this).e[u] - delta;
         (*this).e[v] = (*this).e[v] + delta;
+        
         if((*this).cf(u,v)<=0) {
             (*this).reduced->deleteEdge(u+1,v+1);
         }
@@ -163,7 +165,7 @@ void PreflowPushGeneric::print() {
     for(int i=0; i<(*this).e.size(); i++) {
         std::cout << "e[" << i << "]=" << (*this).e[i] << std::endl;
     }
-    std::cout << "Gf" << std::endl;
+    std::cout << "Gf (reduced network)" << std::endl;
     std::cout << *(*this).reduced << std::endl;
     std::cout << "f" << std::endl;
     for(int i=0; i<(*this).f.size(); i++) {
