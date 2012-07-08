@@ -51,16 +51,18 @@ void PreflowPushGeneric::init() {
     }
     // initialize reduced network
     (*this).reduced = new Graph(a,0,0);
+    // call updateReducedNetwork for good measure 
+    (*this).updateReducedNetwork();
 }
 
 void PreflowPushGeneric::updateReducedNetwork() {
     //compute reduced network. c.f. Cormen et. al, 2001
     for(int u=0; u<(*this).g->getNumberOfNodes(); u++) {
         for(int v=0; v<(*this).g->getNumberOfNodes(); v++) {
+            std::cerr << "cf(" << u << "," << v << ") is :" << (*this).cf(u,v) << std::endl;
             if((*this).cf(u,v)>0) {
                 (*this).reduced->addEdge(u+1,v+1,0,0);
-            }
-   
+            }   
         }
     }
 }
@@ -83,13 +85,14 @@ int PreflowPushGeneric::getH(int idx) {
  * @return bool indicating modification of state
  */
 bool PreflowPushGeneric::push(int u, int v) {
-    int cf = (*this).g->getCapacity(u,v)-(*this).f[u][v];
-    if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && cf>0) {
-        int delta = std::min((*this).e[u],cf);
+    if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && (*this).cf(u,v) >0) {
+        // 1.1
+        int delta = std::min((*this).e[u], (*this).cf(u,v));
         (*this).f[u][v] = (*this).f[u][v] + delta;
         (*this).f[v][u] = -(*this).f[u][v];
         (*this).e[u] = (*this).e[u] - delta;
         (*this).e[v] = (*this).e[v] + delta;
+        
         if((*this).cf(u,v)<=0) {
             (*this).reduced->deleteEdge(u+1,v+1);
         }
@@ -168,7 +171,7 @@ void PreflowPushGeneric::print() {
     for(int i=0; i<(*this).e.size(); i++) {
         std::cout << "e[" << i << "]=" << (*this).e[i] << std::endl;
     }
-    std::cout << "Gf" << std::endl;
+    std::cout << "Gf (reduced network)" << std::endl;
     std::cout << *(*this).reduced << std::endl;
     std::cout << "f" << std::endl;
     for(int i=0; i<(*this).f.size(); i++) {
@@ -180,7 +183,9 @@ void PreflowPushGeneric::print() {
     }
 }
 
-
+int PreflowPushGeneric::getMaxFlow(){
+    return this->f[this->source][this->target];
+}
 
 PreflowPushGeneric::PreflowPushGeneric(const PreflowPushGeneric& orig) {
 }

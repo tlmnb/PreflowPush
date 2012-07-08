@@ -12,7 +12,8 @@
 #include <fstream>
 #include "Graph.h"
 #include <sstream>
-//#include "PreflowPushGeneric.h"
+#include "PreflowPushFIFO/PreflowPushFIFO.h"
+#include "PreflowPushRandom/PreflowPushRandom.h"
 
 #include <unistd.h>
 
@@ -23,9 +24,12 @@ bool ProblemTest::test(string file, int desiredFlow) {
     string fileName = string("testdat/fprobs/" + file);
     in.open(fileName.c_str());
     Graph g(in);
-    //  ALG pfg = alg(g);
-    // int flow = pfg.getMaxFlow();
-    int flow = 0;
+    //PreflowPushFifo pfg(&g);
+    //pfg.exec();
+    //int flow = pfg.getMaxFlow();
+    PreflowPushRandom pfr(&g);
+    pfr.exec();
+    int flow = pfr.getMaxFlow();
     bool ok = (desiredFlow == flow);
     if (ok)
         cout << "Correct flow for problem " << file << endl;
