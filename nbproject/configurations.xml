@@ -90,6 +90,13 @@
           </incDir>
         </ccTool>
       </item>
+      <item path="ProblemTest.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
       <folder path="SourceFiles">
         <cTool>
           <incDir>
@@ -117,6 +124,16 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="PreflowPushExcessScaling/PreflowPushExcessScaling.cpp"
+            ex="false"
+            tool="1"
+            flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

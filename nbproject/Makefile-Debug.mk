@@ -81,7 +81,7 @@ ${OBJECTDIR}/main.o: main.cpp
 ${OBJECTDIR}/ProblemTest.o: ProblemTest.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ProblemTest.o ProblemTest.cpp
+	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/ProblemTest.o ProblemTest.cpp
 
 ${OBJECTDIR}/PreflowPushRandom/PreflowPushRandom.o: PreflowPushRandom/PreflowPushRandom.cpp 
 	${MKDIR} -p ${OBJECTDIR}/PreflowPushRandom
