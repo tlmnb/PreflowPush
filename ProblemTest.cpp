@@ -12,7 +12,7 @@
 #include <fstream>
 #include "Graph.h"
 #include <sstream>
-//#include "PreflowPushGeneric.h"
+#include "PreflowPushFIFO/PreflowPushFIFO.h"
 
 #include <unistd.h>
 
@@ -23,9 +23,9 @@ bool ProblemTest::test(string file, int desiredFlow) {
     string fileName = string("testdat/fprobs/" + file);
     in.open(fileName.c_str());
     Graph g(in);
-    //  ALG pfg = alg(g);
-    // int flow = pfg.getMaxFlow();
-    int flow = 0;
+    PreflowPushFIFO pfg(&g);
+    pfg.exec();
+    int flow = pfg.getMaxFlow();
     bool ok = (desiredFlow == flow);
     if (ok)
         cout << "Correct flow for problem " << file << endl;
