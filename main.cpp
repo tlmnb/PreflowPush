@@ -30,11 +30,14 @@ int main(int argc, char** argv) {
         printHelp();
         exit(1);
     }
-        
+    
     string graphFile = argv[2];
     ifstream in(graphFile.c_str(),ios::in);
+    cerr << "Starting to read graph file from disk." << endl;
     Graph inputGraph(in);
     in.close();
+    cerr << "Finished reading graph file from disk. " << endl;
+
     string algType = argv[4];
     
     if (algType == "Random"){
@@ -44,9 +47,13 @@ int main(int argc, char** argv) {
     }
     else if (algType == "FIFO")
     {
+        cerr << "Initializing algorithm" << endl;
         PreflowPushFIFO pff(&inputGraph);
+        cerr << "Finished initializing algorithm. Now calculating max flow" << endl;
         pff.exec();
-        pff.print();
+        cerr << "Finished calculating max flow." << endl;
+        //pff.print();
+        cerr << "Max flow is: " << pff.getMaxFlow() << endl;
     }
     else if (algType == "Highest-Label"){
         cerr << "Not implemented." << endl;
