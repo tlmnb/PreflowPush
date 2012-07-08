@@ -19,6 +19,7 @@ public:
     virtual ~PreflowPushGeneric();
     virtual void exec();
     void print();
+    int getMaxFlow();
     
 protected:
     Graph* g;

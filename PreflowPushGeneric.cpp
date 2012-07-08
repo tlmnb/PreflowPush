@@ -176,7 +176,9 @@ void PreflowPushGeneric::print() {
     }
 }
 
-
+int PreflowPushGeneric::getMaxFlow(){
+    return this->f[this->source][this->target];
+}
 
 PreflowPushGeneric::PreflowPushGeneric(const PreflowPushGeneric& orig) {
 }
