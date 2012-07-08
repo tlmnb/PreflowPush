@@ -79,9 +79,8 @@ int PreflowPushGeneric::cf(int u, int v) {
  * @return bool indicating modification of state
  */
 bool PreflowPushGeneric::push(int u, int v) {
-    int cf = (*this).g->getCapacity(u,v)-(*this).f[u][v];
-    if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && cf>0) {
-        int delta = std::min((*this).e[u],cf);
+    if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && (*this).cf(u,v) >0) {
+        int delta = std::min((*this).e[u], (*this).cf(u,v));
         (*this).f[u][v] = (*this).f[u][v] + delta;
         (*this).f[v][u] = -(*this).f[u][v];
         (*this).e[u] = (*this).e[u] - delta;
