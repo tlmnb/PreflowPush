@@ -21,6 +21,8 @@ void PreflowPushRandom::exec() {
     // can we restrict the selection of (u,v) or (u)?
     bool changed = false;
     do {
+        std::cerr << "Loop" << std::endl;
+        this->print();
         changed = false;
         int a = this->h.size();
         for (int uu = 0; uu < a; uu++) {
