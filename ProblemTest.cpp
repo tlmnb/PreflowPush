@@ -17,6 +17,9 @@
 
 #include <unistd.h>
 
+#include <sys/time.h>
+
+
 using namespace std;
 
 bool ProblemTest::test(string file, int desiredFlow) {
@@ -25,12 +28,27 @@ bool ProblemTest::test(string file, int desiredFlow) {
     cout << "Now reading file " << fileName << endl;
     in.open(fileName.c_str());
     Graph g(in);
+    cout << "Finished reading file." << endl;
     //PreflowPushFifo pfg(&g);
     //pfg.exec();
     //int flow = pfg.getMaxFlow();
+    cout << "Initializing algorithm." << endl;
+    timeval start;
+    timeval stop;
+    gettimeofday(&start, NULL);
     PreflowPushRandom pfr(&g);
+    gettimeofday(&stop, NULL);
+    //int sec = stop.tv_sec - start.tv_sec;
+    int init_usec = stop.tv_usec - start.tv_usec;
+    cout << "Initialization took " << init_usec << "ms" << endl;
+    cout << "Calculating max flow." << endl;
+    gettimeofday(&start, NULL);
     pfr.exec();
     int flow = pfr.getMaxFlow();
+    gettimeofday(&stop, NULL);
+    int flow_usec = stop.tv_usec - start.tv_usec;
+    cout << "Maxflow calculation took " << flow_usec << "ms" << endl;
+    cout << "Total time: " << init_usec+ flow_usec << "ms" << endl;
     bool ok = (desiredFlow == flow);
     if (ok)
         cout << "Correct flow for problem " << file << endl;
