@@ -1,6 +1,9 @@
 /* 
  * File:   PreflowPushRandom.cpp
- * Author: haas
+ * Author: Michael Haas
+ * 
+ * Implements the Random strategy for the PreflowPush algorithm.
+ * For more details, see @PreflowPushRandom::exec().
  * 
  * Created on 2. Juli 2012, 16:55
  */
