@@ -22,10 +22,18 @@
 using namespace std;
 
 void printHelp() {
-    std::cout << "Usage: $ ./preflowPush -f [graph] -a [Random|FIFO|Highest-Label|Excess-Scaling|Run-Tests]" << std::endl;
+    std::cout << "Usage: $ ./preflowPush -f [graph] -a [Random|FIFO|Highest-Label|Excess-Scaling]" << std::endl;
+    std::cout << "Usage: $ ./preflowPush -a Run-Tests" << std::endl;
 }
 
-int main(int argc, char** argv) {        
+int main(int argc, char** argv) {
+    if (argc == 3 && string(argv[1]) == "-a" && string(argv[2]) == "Run-Tests")
+    {
+        cout << "Running tests..." << endl;
+        ProblemTest tester;
+        return tester.run();
+        
+    }
     if (argc < 5 || string(argv[1]) != string("-f") || string(argv[3]) != string("-a"))
     {
         printHelp();
