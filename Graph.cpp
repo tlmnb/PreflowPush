@@ -231,6 +231,36 @@ bool Graph::hasUndirectedEdge(int u, int v) {
     return ((*this).adj[u][v] || (*this).adj[v][u]);
 }
 
+/**
+ * 
+ * Returns the density of a graph.
+ * 
+ * Maximum density is 1 for complete graph and minimal density
+ * is 0 for graphs with no edges.
+ * 
+ * The density gives some insight how well connected the graph is.
+ * 
+ * See http://xlinux.nist.gov/dads//HTML/sparsegraph.html
+ * @return density
+ */
+double Graph::getDensity() {
+    int nodes =  this->getNumberOfNodes();
+    int edges = this->getNumberOfEdges();
+    return double(edges) / double(nodes * (nodes-1));
+}
+
+/**
+ * Returns the average degree of a graph.
+ * 
+ * The average degree gives some insight how well connected
+ * the graph is.
+ * 
+ * @return average degree
+ */
+double Graph::getAverageDegree(){
+    return double(this->getNumberOfEdges()) / double(this->getNumberOfNodes());
+      
+}
 
 /* overwritten << operator
  */

@@ -26,6 +26,8 @@ public:
     bool hasEdge(int u, int v);
     bool hasUndirectedEdge(int u, int v);
     void deleteEdge(int u, int v);
+    double getDensity();
+    double getAverageDegree();
 private:
     int numberOfNodes;
     int source;

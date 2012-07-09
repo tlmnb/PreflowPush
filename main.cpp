@@ -46,6 +46,12 @@ int main(int argc, char** argv) {
     Graph inputGraph(in);
     in.close();
     cerr << "Finished reading graph file from disk. " << endl;
+    
+    cerr << "Graph statistics:" << endl;
+    cerr << "\tNumber of nodes: "  << inputGraph.getNumberOfNodes() << endl;
+    cerr << "\tNumber of edges: " << inputGraph.getNumberOfEdges() << endl;
+    cerr << "\tAverage degree: " << inputGraph.getAverageDegree() << endl;
+    cerr << "\tDensity: " << inputGraph.getDensity() << endl;
 
     string algType = argv[4];
     
