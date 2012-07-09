@@ -1,6 +1,9 @@
 /* 
  * File:   PreflowPushHighestLabel.cpp
- * Author: haas
+ * Author: Michael Haas
+ * 
+ * Implementation of the HighestLabel strategy for the PreflowPush algorithm.
+ * See @PreflowPushHighestLabel::exec() for details.
  * 
  * Created on July 3, 2012, 1:52 PM
  */
@@ -17,15 +20,41 @@
 PreflowPushHighestLabel::PreflowPushHighestLabel(Graph* g) :  PreflowPushGeneric(g) {
 }
 
+/**
+ * 
+ * Constructor.
+ * 
+ * @param phl PreflowPushHighestLabel instance
+ */
 PreflowPushHighestLabel::Comperator::Comperator(PreflowPushHighestLabel* phl) {
     (*this).phl = phl;
 }
 
+/**
+ * 
+ * Comperator implementation for std::priority_queue.
+ * This allows priorisation of nodes with h values for height.
+ * 
+ * 
+ * @param a node a
+ * @param b node b
+ * @return Whether a is less high than b or not
+ */
 bool PreflowPushHighestLabel::Comperator::operator ()(const int& a, const int& b) {
     return (*this).phl->getH(a) < (*this).phl->getH(b);
 }
 
-
+/**
+ * 
+ * Runs the algorithm.
+ * 
+ * This strategy will always try to push flow from the highest node.
+ * For efficient retrieval of the currently highest node, a std::priority_queue
+ * is used.
+ * 
+ * More information can be found on page 85 of Reinelt's script.
+ * 
+ */
 void PreflowPushHighestLabel::exec() {
     Comperator comp(this);
     std::priority_queue<int, std::vector<int>, Comperator> Q(comp);
@@ -56,10 +85,21 @@ void PreflowPushHighestLabel::exec() {
         
     }
 } 
-    
+
+/**
+ * Constructor.
+ * 
+ * See superclass for documentation.
+ * @param orig
+ */
 PreflowPushHighestLabel::PreflowPushHighestLabel(const PreflowPushHighestLabel& orig) : PreflowPushGeneric(orig) {
 }
 
+/**
+ * Constructor.
+ * 
+ * See superclass for documentation.
+ */
 PreflowPushHighestLabel::~PreflowPushHighestLabel() {
 }
 
