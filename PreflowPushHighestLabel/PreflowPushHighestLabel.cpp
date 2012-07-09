@@ -9,13 +9,12 @@
 #include <algorithm>
 #include <queue>
 
+/**
+ * Constructor. See superclass for documentation.
+ * 
+ * @param g
+ */
 PreflowPushHighestLabel::PreflowPushHighestLabel(Graph* g) :  PreflowPushGeneric(g) {
-}
-
-PreflowPushHighestLabel::PreflowPushHighestLabel(const PreflowPushHighestLabel& orig) : PreflowPushGeneric(orig) {
-}
-
-PreflowPushHighestLabel::~PreflowPushHighestLabel() {
 }
 
 PreflowPushHighestLabel::Comperator::Comperator(PreflowPushHighestLabel* phl) {
@@ -56,11 +55,15 @@ void PreflowPushHighestLabel::exec() {
             
         
     }
+} 
     
-    
-    
-    
+PreflowPushHighestLabel::PreflowPushHighestLabel(const PreflowPushHighestLabel& orig) : PreflowPushGeneric(orig) {
 }
+
+PreflowPushHighestLabel::~PreflowPushHighestLabel() {
+}
+
+    
 
 
 
