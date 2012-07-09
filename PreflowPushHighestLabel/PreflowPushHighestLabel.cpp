@@ -7,6 +7,7 @@
 
 #include "PreflowPushHighestLabel.h"
 #include <algorithm>
+#include <queue>
 
 PreflowPushHighestLabel::PreflowPushHighestLabel(Graph* g) :  PreflowPushGeneric(g) {
 }
@@ -27,14 +28,45 @@ bool PreflowPushHighestLabel::Comperator::operator ()(const int& a, const int& b
 
 
 void PreflowPushHighestLabel::exec() {
-    std::vector<int> nodes; //all nodes
-    for(int i=0; i<(*this).g->getNumberOfNodes(); i++) {
-        nodes.push_back(i);
+    Comperator comp(this);
+    std::priority_queue<int, std::vector<int>, Comperator> Q(comp);
+    std::vector<int> nodes = (*this).g->getNeighbors((*this).g->getSource());
+    for(std::vector<int>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+        if((*this).g->getSource()==*it || (*this).g->getTarget()==*it) {
+            continue;
+        }
+        Q.push(*it);
+    }
+    bool lifted = false;
+    int currentNode;
+    while(!Q.empty() || lifted) {
+        if(!lifted) {
+            currentNode = Q.top();
+            Q.pop();
+        }
+        bool applied;
+        do {
+            applied=false;
+            std::vector<int> neighbors = (*this).g->getNeighbors(currentNode);
+            std::vector<int>::iterator it;
+            for(it=neighbors.begin(); it != neighbors.end(); it++) {
+                
+                applied = (applied || this->push(currentNode, *it));
+                if((*this).e[*it]>0) {
+                    Q.push(*it);
+                }
+            }
+            
+        } while(applied);
+        lifted = (*this).lift(currentNode);
+        if(lifted) {
+            Q.push(currentNode);
+        }
+        lifted = false;
     }
     
-    Comperator comp(this);
-    std::make_heap(nodes.begin(),nodes.end(),comp);
-    
 }
+
+
 
 

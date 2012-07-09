@@ -15,7 +15,7 @@ PreflowPushGeneric::PreflowPushGeneric(Graph* graph) {
     // erste vier Zeilen
     (*this).g = graph;
     (*this).init();
-    (*this).updateReducedNetwork();
+    //(*this).updateReducedNetwork();
 }
 
 void PreflowPushGeneric::init() {

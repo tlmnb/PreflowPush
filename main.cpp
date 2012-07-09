@@ -64,6 +64,7 @@ int main(int argc, char** argv) {
     else if (algType == "Highest-Label"){
         PreflowPushHighestLabel pfhl(&inputGraph);
         pfhl.exec();
+        pfhl.print();
     }
     else if (algType == "Excess-Scaling"){
         cerr << "Not implemented." << endl;
