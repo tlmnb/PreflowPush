@@ -30,40 +30,35 @@ bool PreflowPushHighestLabel::Comperator::operator ()(const int& a, const int& b
 void PreflowPushHighestLabel::exec() {
     Comperator comp(this);
     std::priority_queue<int, std::vector<int>, Comperator> Q(comp);
-    std::vector<int> nodes = (*this).g->getNeighbors((*this).g->getSource());
-    for(std::vector<int>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-        if((*this).g->getSource()==*it || (*this).g->getTarget()==*it) {
-            continue;
+    
+    for(int i=0; i<(*this).g->getNumberOfNodes(); i++) {
+        if((*this).isActive(i)) {
+                Q.push(i);
         }
-        Q.push(*it);
     }
-    bool lifted = false;
-    int currentNode;
-    while(!Q.empty() || lifted) {
-        if(!lifted) {
-            currentNode = Q.top();
-            Q.pop();
-        }
-        bool applied;
+    
+    while(!Q.empty()) {
+        int currentNode = Q.top();
+        Q.pop();
+        bool updated;
         do {
-            applied=false;
-            std::vector<int> neighbors = (*this).g->getNeighbors(currentNode);
-            std::vector<int>::iterator it;
-            for(it=neighbors.begin(); it != neighbors.end(); it++) {
-                
-                applied = (applied || this->push(currentNode, *it));
-                if((*this).e[*it]>0) {
+            updated = false;
+            std::vector<int> neighbors = this->g->getNeighbors(currentNode);
+            //std::make_heap(neighbors.begin(),neighbors.end(),comp);
+            for (std::vector<int>::iterator it = neighbors.begin(); it < neighbors.end(); it++) {
+                updated = (updated || this->push(currentNode, *it));
+                if ((*this).e[*it]>0) {
                     Q.push(*it);
                 }
             }
+        } while(updated);
+        (*this).lift(currentNode);
             
-        } while(applied);
-        lifted = (*this).lift(currentNode);
-        if(lifted) {
-            Q.push(currentNode);
-        }
-        lifted = false;
+        
     }
+    
+    
+    
     
 }
 

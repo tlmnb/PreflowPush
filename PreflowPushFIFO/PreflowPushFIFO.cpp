@@ -51,8 +51,8 @@ void PreflowPushFIFO::examine(int u) {
                 updated = (updated || this->push(u, *it));
                 // "Wird v dadurch zu einem  Überschussknoten, füge v am Ende von L ein"
                 // aus dem neuen Skript. Ist das dasselbe wie "wenn e[v] > 0"?!
-                if (this->e[*it] > 0)
-                {
+                
+                if (this->e[*it] > 0) {
                     //cerr << "Enqueuing overflowing node " << *it << endl;
                     this->L.push(*it);
                 }

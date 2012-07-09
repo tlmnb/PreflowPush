@@ -149,17 +149,7 @@ bool PreflowPushGeneric::isActive(int u) {
     return (u!=(*this).source && u!=(*this).target && (*this).e[u]>0);
 }
 
-void PreflowPushGeneric::exec() {
-    print();
-    lift(1);
-    print();
-    push(1,3);
-    print();
-    lift(1);
-    print();
-    push(1,0);
-    print();
-    
+void PreflowPushGeneric::exec() { 
 }
 
 void PreflowPushGeneric::print() {
