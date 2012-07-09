@@ -7,29 +7,38 @@
 
 #include "PreflowPushRandom.h"
 
+/**
+ * Constructor.
+ * See superclass for documentation.
+ * 
+ * @param g
+ */
 PreflowPushRandom::PreflowPushRandom(Graph* g) : PreflowPushGeneric(g) {
 }
 
+/**
+ * Constructor.
+ * 
+ * See superclass for documentation.
+ * @param orig
+ */
 PreflowPushRandom::PreflowPushRandom(const PreflowPushRandom& orig) : PreflowPushGeneric(orig) {
 }
 
+/**
+ * The Random strategy applies any applicable Push or Lift operation
+ * until no further operations can be applied. The algorithm is then finished.
+ * 
+ */
 void PreflowPushRandom::exec() {
-    // in the script, this is not really random, it's just 
-    // " Solange eine anwendbare Push- oder Lift-Operation existiert, f¨ hre eine solche aus.
-    // thus, we don't need proper randomness
-    // we could iterate over all nodes, but that seems like a waste of time
-    // can we restrict the selection of (u,v) or (u)?
+    // " Solange eine anwendbare Push- oder Lift-Operation existiert, führe eine solche aus.
     bool changed = false;
     do {
-        //std::cerr << "Loop" << std::endl;
-        //this->print();
         changed = false;
         int a = this->h.size();
         for (int uu = 0; uu < a; uu++) {
-            // this should only work if lift is an applicable operation
             changed = (this->lift(uu) || changed);
             for (int vv = 0; vv < a; vv++) {
-                // this should only work if push is an applicable operation
                 changed = (this->push(uu, vv) || changed);
             }
         }
