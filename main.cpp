@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
         pfr.exec();
         cerr << "Finished calculating max flow." << endl;
         cerr << "Max flow is: " << pfr.getMaxFlow() << endl;
-        pfr.print();
+        
     }
     else if (algType == "FIFO")
     {
@@ -59,12 +59,12 @@ int main(int argc, char** argv) {
         cerr << "Finished calculating max flow." << endl;
         //pff.print();
         cerr << "Max flow is: " << pff.getMaxFlow() << endl;
-        pff.print();
+        
     }
     else if (algType == "Highest-Label"){
         PreflowPushHighestLabel pfhl(&inputGraph);
         pfhl.exec();
-        pfhl.print();
+        cerr << pfhl.getMaxFlow() << endl;
     }
     else if (algType == "Excess-Scaling"){
         cerr << "Not implemented." << endl;

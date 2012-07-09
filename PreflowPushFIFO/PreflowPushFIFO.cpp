@@ -28,7 +28,7 @@ void PreflowPushFIFO::exec() {
     // p. 85
     // "Es wird jeweils für das erste Listenelement Examine aufgerufen"
     while ( ! this->L.empty())  {
-        cerr << "size of L: " << this->L.size() << endl;
+        //cerr << "size of L: " << this->L.size() << endl;
         int current = this->L.front();
         this->L.pop();
         this->examine(current);
@@ -36,7 +36,7 @@ void PreflowPushFIFO::exec() {
 }
 // method Examine(u), sript page 85
 void PreflowPushFIFO::examine(int u) {
-    cerr << "examining u " << u << endl;
+    //cerr << "examining u " << u << endl;
     if (this->isActive(u)) {
         // Part 1.1
         // "Solange möglich, führe Operationen Push(u,v) aus."
@@ -51,9 +51,9 @@ void PreflowPushFIFO::examine(int u) {
                 updated = (updated || this->push(u, *it));
                 // "Wird v dadurch zu einem  Überschussknoten, füge v am Ende von L ein"
                 // aus dem neuen Skript. Ist das dasselbe wie "wenn e[v] > 0"?!
-                if (this->e[*it] > 0)
-                {
-                    cerr << "Enqueuing overflowing node " << *it << endl;
+                
+                if (this->e[*it] > 0) {
+                    //cerr << "Enqueuing overflowing node " << *it << endl;
                     this->L.push(*it);
                 }
             }
@@ -63,7 +63,7 @@ void PreflowPushFIFO::examine(int u) {
         // das Endes von L, andernfalls entferne u aus L"
         // (u is already popped from the stack in exec())
         if (this->lift(u)) {
-            cerr << "Enqueuing lifted node " << u << endl;
+            //cerr << "Enqueuing lifted node " << u << endl;
             this->L.push(u);
         }
             
