@@ -17,7 +17,7 @@
 
 #include <unistd.h>
 
-#include <sys/time.h>
+#include "Timer.h"
 
 
 using namespace std;
@@ -33,22 +33,20 @@ bool ProblemTest::test(string file, int desiredFlow) {
     //pfg.exec();
     //int flow = pfg.getMaxFlow();
     cout << "Initializing algorithm." << endl;
-    timeval start;
-    timeval stop;
-    gettimeofday(&start, NULL);
+    Timer t;
+    t.start();
     PreflowPushRandom pfr(&g);
-    gettimeofday(&stop, NULL);
-    //int sec = stop.tv_sec - start.tv_sec;
-    int init_usec = stop.tv_usec - start.tv_usec;
-    cout << "Initialization took " << init_usec << "ms" << endl;
+    t.stop();
+    int initDuration = t.duration();
+    cout << "Initialization took " << initDuration << "ms" << endl;
     cout << "Calculating max flow." << endl;
-    gettimeofday(&start, NULL);
+    t.start();
     pfr.exec();
     int flow = pfr.getMaxFlow();
-    gettimeofday(&stop, NULL);
-    int flow_usec = stop.tv_usec - start.tv_usec;
-    cout << "Maxflow calculation took " << flow_usec << "ms" << endl;
-    cout << "Total time: " << init_usec+ flow_usec << "ms" << endl;
+    t.stop();
+    int flowDuration = t.duration();
+    cout << "Maxflow calculation took " << flowDuration << "ms" << endl;
+    cout << "Total time: " << initDuration + flowDuration << "ms" << endl;
     bool ok = (desiredFlow == flow);
     if (ok)
         cout << "Correct flow for problem " << file << endl;
