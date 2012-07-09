@@ -1,6 +1,8 @@
 /* 
  * File:   PreflowPushFIFO.cpp
- * Author: haas
+ * Author: Michael Haas
+ * 
+ * Implements the FIFO strategy for the PreflowPush algorithm.
  * 
  * Created on July 3, 2012, 10:23 AM
  */
@@ -14,46 +16,59 @@ PreflowPushFIFO::PreflowPushFIFO(Graph* g) : PreflowPushGeneric(g) {
 PreflowPushFIFO::PreflowPushFIFO(const PreflowPushFIFO& orig): PreflowPushGeneric(orig) {
 }
 
+/**
+ * Runs the algorithm.
+ * 
+ * The FIFO strategy maintains a First-In-First-Out queue for nodes.
+ * The node at the front of the queue is handed to the examine method.
+ * 
+ *
+ */
 void PreflowPushFIFO::exec() {
     // p. 85
     // "Zu Beginn wird L mit den nach der Initialisierung aktiven Knoten besetzt" 
-    // TODO: is there an easier way to get these?
     for (int ii = 0; ii < this->g->getNumberOfNodes(); ii++) {
         if (this->isActive(ii))
         {
-            //cerr << "Initializing L with node " << ii << endl;
             this->L.push(ii);
         }
     }
     // p. 85
     // "Es wird jeweils für das erste Listenelement Examine aufgerufen"
     while ( ! this->L.empty())  {
-        //cerr << "size of L: " << this->L.size() << endl;
         int current = this->L.front();
         this->L.pop();
         this->examine(current);
     } 
 }
-// method Examine(u), sript page 85
+/**
+ * Examine method for the FIFO variant of PreflowPush.
+ * 
+ * This method is called with the node u which comes from the front of the queue.
+ * 
+ * This method pushes flow from u to its neighbors. If a neighbor
+ * becomes active, it is added to the end of the queue.
+ * 
+ * Node u is then lifted. If the lift operation is successful, node u
+ * is added to the end of the queue.
+ * 
+ * The examine method is described further in Reinelt's script on page 85.
+ * 
+ * @param u Node u
+ */
 void PreflowPushFIFO::examine(int u) {
-    //cerr << "examining u " << u << endl;
     if (this->isActive(u)) {
         // Part 1.1
         // "Solange möglich, führe Operationen Push(u,v) aus."
         bool updated;
         do {
             updated = false;
-            // TODO: where does v come from?
-            // is neighbors correct here?
             vector<int> neighbors = this->g->getNeighbors(u);
             for (vector<int>::iterator it = neighbors.begin(); it < neighbors.end(); it++)
             {
                 updated = (updated || this->push(u, *it));
                 // "Wird v dadurch zu einem  Überschussknoten, füge v am Ende von L ein"
-                // aus dem neuen Skript. Ist das dasselbe wie "wenn e[v] > 0"?!
-                
                 if (this->e[*it] > 0) {
-                    //cerr << "Enqueuing overflowing node " << *it << endl;
                     this->L.push(*it);
                 }
             }
@@ -61,9 +76,7 @@ void PreflowPushFIFO::examine(int u) {
         // Part 1.2
         // "Ist Lift(u) anwendbar, dann führe die Operation aus und setze u an
         // das Endes von L, andernfalls entferne u aus L"
-        // (u is already popped from the stack in exec())
         if (this->lift(u)) {
-            //cerr << "Enqueuing lifted node " << u << endl;
             this->L.push(u);
         }
             
@@ -72,7 +85,9 @@ void PreflowPushFIFO::examine(int u) {
     
 }
 
-
+/**
+ * Destructor.
+ */
 PreflowPushFIFO::~PreflowPushFIFO() {
 }
 
