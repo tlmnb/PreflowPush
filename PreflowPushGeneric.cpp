@@ -59,7 +59,7 @@ void PreflowPushGeneric::updateReducedNetwork() {
     //compute reduced network. c.f. Cormen et. al, 2001
     for(int u=0; u<(*this).g->getNumberOfNodes(); u++) {
         for(int v=0; v<(*this).g->getNumberOfNodes(); v++) {
-            std::cerr << "cf(" << u << "," << v << ") is :" << (*this).cf(u,v) << std::endl;
+            //std::cerr << "cf(" << u << "," << v << ") is :" << (*this).cf(u,v) << std::endl;
             if((*this).cf(u,v)>0) {
                 (*this).reduced->addEdge(u+1,v+1,0,0);
             }   
@@ -184,7 +184,7 @@ void PreflowPushGeneric::print() {
 }
 
 int PreflowPushGeneric::getMaxFlow(){
-    return this->f[this->source][this->target];
+    return this->e[this->target];
 }
 
 PreflowPushGeneric::PreflowPushGeneric(const PreflowPushGeneric& orig) {
