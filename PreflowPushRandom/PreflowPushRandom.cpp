@@ -21,22 +21,16 @@ void PreflowPushRandom::exec() {
     // can we restrict the selection of (u,v) or (u)?
     bool changed = false;
     do {
-        std::cerr << "Loop" << std::endl;
-        this->print();
+        //std::cerr << "Loop" << std::endl;
+        //this->print();
         changed = false;
         int a = this->h.size();
         for (int uu = 0; uu < a; uu++) {
             // this should only work if lift is an applicable operation
-            bool res = this->lift(uu);
-            if (res)
-                std::cerr << "Lift(" << uu << ")  successful" << std::endl;
-            changed = (res || changed);
+            changed = (this->lift(uu) || changed);
             for (int vv = 0; vv < a; vv++) {
                 // this should only work if push is an applicable operation
-                bool pushRes = this->push(uu, vv);
-                if (pushRes)
-                    std::cerr << "Push(" << uu << "," << vv << ") successful." << std::endl;
-                changed = (pushRes || changed);
+                changed = (this->push(uu, vv) || changed);
             }
         }
     } while (changed);
