@@ -17,6 +17,7 @@
 #include "PreflowPushRandom/PreflowPushRandom.h"
 #include "PreflowPushFIFO/PreflowPushFIFO.h"
 #include "PreflowPushHighestLabel/PreflowPushHighestLabel.h"
+#include "Timer.h"
 
 
 using namespace std;
@@ -55,6 +56,8 @@ int main(int argc, char** argv) {
 
     string algType = argv[4];
     
+    Timer t;
+    t.start();
     if (algType == "Random"){
          cerr << "Initializing algorithm" << endl;
         PreflowPushRandom pfr(&inputGraph);
@@ -88,7 +91,7 @@ int main(int argc, char** argv) {
     }
     else if (algType == "Run-Tests")
     {
-        cout << "Running tests..." << endl;
+        cerr << "Running tests..." << endl;
         ProblemTest tester;
         tester.run();
     } else if (algType == "Moo") {
@@ -102,6 +105,8 @@ int main(int argc, char** argv) {
     {
         std::cout << "Unknown algorithm type." << std::endl;
     }
+    t.stop();
+    cout << "Execution took " << t.duration() << "ms" << endl;
     return 0;
 }
 
