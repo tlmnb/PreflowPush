@@ -1,0 +1,36 @@
+1. Programmieraufgabe, SoSe 2012
+
+This project aims to implement the Preflow-Push algorithm 
+to find maximum flows in networks. We follow the description of the
+algorithm found in Gerhart Reinelt's lecture script for "Effiziente
+Algorithm I", chapter 6.3.
+
+We implement three variants of this algorithm, with the main difference
+being the order of the application of the two main operations: Push and Lift:
+
+PreflowPushRandom:       Push and Lift are applied in random order until
+                         none of the operations can be applied anymore.
+PreflowPushFIFO:         Push(u,v) is applied for a node u until no further 
+                         push operations can take place. 
+PreflowPushHighestLabel: Nodes with highest height values will be 
+                         push()'ed first
+
+To build the code, run "make". To calculate the maximum amount of flow
+for a graph file with a given algorithm, run the executable as follows:
+
+./preflowpush -f myGraph.file -a Random
+
+Possible values for the -a switch are: Random, FIFO, HighestLabel
+
+In addition, it is possible to run the executable in test mode,
+which will calculate max flow for all test problems given as part
+of the assignment and compare against the optimal values:
+
+./preflowpush -a Run-Tests
+
+But be aware that this will take some time.
+
+Further documentation can be found in the source code itself and in the
+included PDF file.
+
+~~ Tilman Wittl <wittl@cl.uni-heidelberg.de>, Michael Haas <haas@cl.uni-heidelberg.de>
