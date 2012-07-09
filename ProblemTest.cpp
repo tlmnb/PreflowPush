@@ -1,7 +1,10 @@
 /* 
  * File:   ProblemTest.cpp
- * Author: haas
+ * Author: Michael Haas
  *
+ * Tests the algorithms with the supplied test graphs and compares the computed
+ * max flow with correct values.
+ * 
  * Created on 2. Juli 2012, 12:22
  */
 
@@ -14,9 +17,7 @@
 #include <sstream>
 #include "PreflowPushFIFO/PreflowPushFIFO.h"
 #include "PreflowPushRandom/PreflowPushRandom.h"
-
 #include <unistd.h>
-
 #include "Timer.h"
 
 
