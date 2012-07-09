@@ -21,7 +21,8 @@ using namespace std;
 
 bool ProblemTest::test(string file, int desiredFlow) {
     ifstream in;
-    string fileName = string("testdat/fprobs/" + file);
+    string fileName = string("testdata/fprobs/prob." + file);
+    cout << "Now reading file " << fileName << endl;
     in.open(fileName.c_str());
     Graph g(in);
     //PreflowPushFifo pfg(&g);
