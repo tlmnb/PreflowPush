@@ -70,9 +70,12 @@ int main(int argc, char** argv) {
         
     }
     else if (algType == "Highest-Label"){
+        cerr << "Initializing algorithm" << endl;
         PreflowPushHighestLabel pfhl(&inputGraph);
+        cerr << "Finished initializing algorithm. Now calculating max flow" << endl;
         pfhl.exec();
-        cerr << pfhl.getMaxFlow() << endl;
+        cerr << "Finished calculating max flow." << endl;
+        cerr << "Max flow is: " << pfhl.getMaxFlow() << endl;
     }
     else if (algType == "Excess-Scaling"){
         cerr << "Not implemented." << endl;
@@ -93,17 +96,6 @@ int main(int argc, char** argv) {
     {
         std::cout << "Unknown algorithm type." << std::endl;
     }
-   /*
-    Graph g(5,1,5);
-    g.addEdge(1,2,3,0);
-    g.addEdge(1,3,3,0);
-    g.addEdge(2,4,2,0);
-    g.addEdge(3,4,2,0);
-    g.addEdge(4,5,1,0);
-    cout << g << endl;
-    PreflowPushRandom pfg(&g);
-    pfg.exec();
-    pfg.print();*/
     return 0;
 }
 
