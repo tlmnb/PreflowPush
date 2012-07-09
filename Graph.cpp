@@ -1,6 +1,8 @@
 /* 
  * File:   Graph.cpp
- * Author: Tilman
+ * Author: Tilman Wittl
+ * 
+ * This class represents a Digraph.
  * 
  * Created on June 24, 2012, 4:36 PM
  */
@@ -20,14 +22,28 @@
 /*
  * Note: We assume, that the nodes are named by numbers in the range between 1 
  * and |V|. The range of the indices of the adjacency matrix is between 0 and 
- * |V|-1, therefore we substracted 1 from the numbers we get.
+ * |V|-1, therefore we substract 1 from the numbers we get.
+ */
+/**
+ * Constructor.
+ * 
+ * @param V number of nodes
+ * @param s source for flow
+ * @param t target for flow
  */
 Graph::Graph(int V,int s, int t) {
     this->resize(V);
     this->source = s-1;
     this->target = t-1;
 }
-
+/**
+ * Constructor. Initializes Graph from file.
+ * 
+ * File must be formatted as described in
+ * http://www.iwr.uni-heidelberg.de/groups/comopt/teaching/ss12/effAlgI/ueb/p1.pdf
+ * 
+ * @param inFile
+ */
 Graph::Graph(std::ifstream& inFile) {
     int V, a,s,t;
     std::string line;
@@ -55,51 +71,14 @@ Graph::Graph(std::ifstream& inFile) {
         k->str("");
         k->seekg(0);
     }
-    
 }
 
-/*Graph::Graph(std::istream &inFile) {
-    std::string line;
 
-    bool gotHead1 = false;
-    bool gotHead2 = false;
-
-    while (std::getline(inFile, line)) {
-        // Taken from StackOverflow: 
-        // http://stackoverflow.com/a/237280
-        // I'm not even sure how this work - I guess the istream_iterator
-        // automatically breaks at whitespaces.
-        // We could also use c-style scanf or fscanf.
-        // There also is http://www.cplusplus.com/reference/clibrary/cstring/strtok/
-        std::vector<std::string> tokens;
-        std::istringstream iss(line);
-
-        std::copy(std::istream_iterator<std::string > (iss),
-                std::istream_iterator<std::string > (),
-                std::back_inserter<std::vector<std::string> >(tokens));std::cout << V << " " << a << std::endl;
-        // TODO: we can convert to int using istringstream, so wedge that into
-        // tokenization somehow
-        if (!gotHead1) {
-            // TODO: what is a?
-            int a = atoi(tokens[0].c_str());
-            this->resize(atoi(tokens[1].c_str()));
-            gotHead1 = true;
-            continue;
-        }
-        if (!gotHead2) {
-            assert (gotHead1);
-            (*this).source = atoi(tokens[0].c_str())-1;
-            (*this).target = atoi(tokens[1].c_str())-1;
-            gotHead2 = true;
-            continue;
-        }
-        assert (gotHead2);
-        std::cout << "Adding edge: " << tokens[0] << " " << tokens[1] << " " << tokens[2] << " " << tokens[3] << std::endl;
-        addEdge(atoi(tokens[0].c_str()), atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str()));
-    }
-}
- * */
-
+/**
+ * Resizes the underlying data structure.
+ * 
+ * @param V size of the graph
+ */
 void Graph::resize(int V) {
      this->numberOfNodes = V;
      (*this).adj.resize(numberOfNodes, std::vector<bool>(numberOfNodes, 0));
@@ -107,7 +86,18 @@ void Graph::resize(int V) {
      (*this).cap.resize(numberOfNodes, std::vector<int>(numberOfNodes, 0));
 }
 
-/* Method for adding edges to the adjacency matrix.
+/**
+ * Adds a weighted edge from u to v to the Graph.
+ * 
+ * If the last parameter cvu is not 0,
+ * an additional edge with weight cvu
+ * going from v to u, i.e. backwards,
+ * is added to the graph.
+ * 
+ * @param u Node u
+ * @param v Node v
+ * @param cuv Weight for edge u->v
+ * @param cvu Weight for edge v->u
  */
 void Graph::addEdge(int u, int v, int cuv, int cvu) {
     (*this).adj[u - 1][v - 1] = true;
@@ -118,34 +108,82 @@ void Graph::addEdge(int u, int v, int cuv, int cvu) {
     }
 }
 
+/**
+ * Removes and edge from the Graph.
+ * 
+ * @param u Node u
+ * @param v Node v
+ */
 void Graph::deleteEdge(int u, int v) {
     (*this).adj[u-1][v-1] = false;
 }
 
+/**
+ * Gets number of nodes.
+ * 
+ * @return number of nodes
+ */
 int Graph::getNumberOfNodes() {
     return (*this).numberOfNodes;
 }
-
+/**
+ * Returns unweighted adjacency matrix of the graph.
+ * 
+ * @return adjacency matrix
+ */
 std::vector<std::vector<bool> > Graph::getAdjacencyMatrix() {
     return (*this).adj;
 }
 
+/**
+ * Returns capacity matrix of the graph.
+ * 
+ * Refer to @hasEdge() to check for existence
+ * of edges before using edge capacities.
+ * 
+ * @return 
+ */
 std::vector<std::vector<int> > Graph::getCapacityMatrix() {
     return (*this).cap;
 }
 
+/**
+ * Returns source for flow in this graph.
+ * 
+ * @return flow source
+ */
 int Graph::getSource() {
     return (*this).source;
 }
 
+/**
+ * 
+ * Returns target for flow in this graph.
+ * 
+ * @return flow target
+ */
 int Graph::getTarget() {
     return (*this).target;
 }
 
+/**
+ * Returns capacity between node u and node v
+ * 
+ * @param u Node u
+ * @param v Node v
+ * @return capacity
+ */
 int Graph::getCapacity(int u, int v) {
     return (*this).cap[u][v];
 }
 
+/**
+ * 
+ * Returns neighbors of a node.
+ * 
+ * @param node Node whose neighbors are returned
+ * @return Neighbors of node
+ */
 std::vector<int> Graph::getNeighbors(int node) {
     std::vector<int> output;
     for(int i=0; i<(*this).adj[node].size(); i++) {
@@ -156,13 +194,29 @@ std::vector<int> Graph::getNeighbors(int node) {
     return output;
 }
 
+/**
+ * Checks whether an edge from u to v exists in the graph.
+ * 
+ * @param u Node u
+ * @param v Node v
+ * @return true or false
+ */
 bool Graph::hasEdge(int u, int v) {
     return ((*this).adj[u][v]);
 }
 
+/**
+ * Checks if either an edge from u to v or from
+ * v to u exists in the graph.
+ * 
+ * @param u Node u 
+ * @param v Node v
+ * @return true or false
+ */
 bool Graph::hasUndirectedEdge(int u, int v) {
     return ((*this).adj[u][v] || (*this).adj[v][u]);
 }
+
 
 /* overwritten << operator
  */
