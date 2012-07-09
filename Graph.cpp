@@ -35,6 +35,7 @@ Graph::Graph(int V,int s, int t) {
     this->resize(V);
     this->source = s-1;
     this->target = t-1;
+    this->edgeCount = 0;
 }
 /**
  * Constructor. Initializes Graph from file.
@@ -102,9 +103,11 @@ void Graph::resize(int V) {
 void Graph::addEdge(int u, int v, int cuv, int cvu) {
     (*this).adj[u - 1][v - 1] = true;
     (*this).cap[u - 1][v - 1] = cuv;
+    this->edgeCount++;
     if (cvu > 0) {
         (*this).adj[v - 1][u - 1] = true;
         (*this).cap[v - 1][u - 1] = cvu;
+        this->edgeCount++;
     }
 }
 
@@ -116,6 +119,7 @@ void Graph::addEdge(int u, int v, int cuv, int cvu) {
  */
 void Graph::deleteEdge(int u, int v) {
     (*this).adj[u-1][v-1] = false;
+    this->edgeCount--;
 }
 
 /**
@@ -125,6 +129,16 @@ void Graph::deleteEdge(int u, int v) {
  */
 int Graph::getNumberOfNodes() {
     return (*this).numberOfNodes;
+}
+
+/**
+ * Gets number of edges.
+ * 
+ * @return number of edges
+ *  */
+int Graph::getNumberOfEdges()
+{
+    return this->edgeCount;
 }
 /**
  * Returns unweighted adjacency matrix of the graph.
