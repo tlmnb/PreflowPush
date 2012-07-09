@@ -63,7 +63,6 @@ void PreflowPushGeneric::init() {
     }
     // initialize reduced network
     (*this).reduced = new Graph(a,0,0);
-    // call updateReducedNetwork for good measure 
     (*this).updateReducedNetwork();
 }
 
@@ -207,8 +206,12 @@ bool PreflowPushGeneric::isActive(int u) {
     return (u!=(*this).source && u!=(*this).target && (*this).e[u]>0);
 }
 /**
- * Runs the algorithm.
+ * Runs the algorithm. After this method returns,
+ * @getMaxFlow() can be called to obtain the maximum amount of flow
+ * between source and target.
+ * 
  * Overriden by subclasses.
+ * 
  */
 void PreflowPushGeneric::exec() { 
 }
