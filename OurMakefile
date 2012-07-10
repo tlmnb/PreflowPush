@@ -1,0 +1,17 @@
+CFLAGS := -O3 -march=native #-Wall -Wextra -pedantic
+INCLUDE := -I.
+CFLAGS := $(CFLAGS) $(INCLUDE)
+objects = Graph.o main.o PreflowPushGeneric.o ProblemTest.o Timer.o PreflowPushFIFO/PreflowPushFIFO.o PreflowPushRandom/PreflowPushRandom.o PreflowPushHighestLabel/PreflowPushHighestLabel.o PreflowPushExcessScaling/PreflowPushExcessScaling.o
+
+all: preflowpush
+
+
+preflowpush : $(objects)
+	g++ $(CFLAGS) -o $@ $(objects)
+
+.cpp.o : 
+	g++ $(CFLAGS) -c -o $@ $*.cpp
+
+
+clean:
+	rm -rf preflowpush $(objects)

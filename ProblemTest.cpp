@@ -1,7 +1,10 @@
 /* 
  * File:   ProblemTest.cpp
- * Author: haas
+ * Author: Michael Haas
  *
+ * Tests the algorithms with the supplied test graphs and compares the computed
+ * max flow with correct values.
+ * 
  * Created on 2. Juli 2012, 12:22
  */
 
@@ -14,33 +17,64 @@
 #include <sstream>
 #include "PreflowPushFIFO/PreflowPushFIFO.h"
 #include "PreflowPushRandom/PreflowPushRandom.h"
-
+#include "PreflowPushHighestLabel/PreflowPushHighestLabel.h"
 #include <unistd.h>
+#include "Timer.h"
+
 
 using namespace std;
 
-bool ProblemTest::test(string file, int desiredFlow) {
-    ifstream in;
-    string fileName = string("testdat/fprobs/" + file);
-    in.open(fileName.c_str());
-    Graph g(in);
-    //PreflowPushFifo pfg(&g);
-    //pfg.exec();
-    //int flow = pfg.getMaxFlow();
-    PreflowPushRandom pfr(&g);
-    pfr.exec();
-    int flow = pfr.getMaxFlow();
-    bool ok = (desiredFlow == flow);
-    if (ok)
-        cout << "Correct flow for problem " << file << endl;
-    else {
-        cout << "Wrong flow for problem " << file << endl;
-        cout << "Desired flow: " << desiredFlow << " Actual: " << flow << endl;
-    }
-    return ok;
+void print(Timer &t, int flow, int desiredFlow) {
+ 
+    cout << "Maxflow calculation took " << t.duration() << "ms" << endl;
+    
+    if (flow == desiredFlow)
+        cout << "Flow correct!" << endl;
+    else
+        cout << "Flow incorrect. Desired: " << desiredFlow << ", Actual: " << flow << endl;
 }
 
-int ProblemTest::testAll() {
+void ProblemTest::test(string file, int desiredFlow) {
+    Timer t;
+    ifstream in;
+    string fileName = string("testdata/fprobs/prob." + file);
+    cout << "Now reading file " << fileName << endl;
+    in.open(fileName.c_str());
+    Graph g(in);
+    cout << "Finished reading file." << endl;
+    cout << "Graph statistics:" << endl;
+    cout << "\tNumber of nodes: "  << g.getNumberOfNodes() << endl;
+    cout << "\tNumber of edges: " << g.getNumberOfEdges() << endl;
+    cout << "\tAverage degree: " << g.getAverageDegree() << endl;
+    cout << "\tDensity: " << g.getDensity() << endl;
+    
+    
+    cout << "Testing PreflowPushFifo." << endl;
+    t.start();
+    PreflowPushFIFO pfg(&g);
+    pfg.exec();
+    int flow = pfg.getMaxFlow();
+    t.stop();
+    print(t, flow, desiredFlow);
+    
+    cout << "Testing PreflowPushRandom" << endl;
+    t.start();
+    PreflowPushRandom pfr(&g);
+    pfr.exec();
+    flow = pfr.getMaxFlow();
+    t.stop();
+    print(t, flow, desiredFlow);
+    
+    //cout << "Testing PreflowPushHighestLabel" << endl;
+    //t.start();
+    //PreflowPushHighestLabel pfhl(&g);
+    //pfhl.exec();
+    //flow = pfhl.getMaxFlow();
+    //t.stop();
+    //print (t, flow, desiredFlow);
+}
+
+void ProblemTest::testAll() {
 
     int fail = 0;
     for (int ii = 0; ii < COUNT; ii++) {
@@ -55,10 +89,8 @@ int ProblemTest::testAll() {
         ss << index;
         file += ss.str();
         int desiredFlow = results[ii];
-        if (!test(file, desiredFlow))
-            fail++;
+        test(file, desiredFlow);
     }
-    return fail;
 }
 
 /*
@@ -90,12 +122,7 @@ int ProblemTest::run() {
     results.push_back(485);
     results.push_back(226);
 
-    int failed = testAll();
-    if (failed == 0) {
-        cout << "All tests passed. Yay!" << endl;
-        return 0;
-    } else {
-        cout << failed << " out of " << COUNT << " tests failed." << endl;
-        return failed;
-    }
+    testAll();
+    return 0;
+    
 }
