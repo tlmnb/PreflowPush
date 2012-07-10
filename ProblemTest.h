@@ -18,8 +18,8 @@ class ProblemTest {
 private:
     const static int COUNT = 9;
     vector<int> results;
-    bool test(string file, int desiredFlow);
-    int testAll();
+    void test(string file, int desiredFlow);
+    void testAll();
 public:
     ProblemTest() {};
     int run();

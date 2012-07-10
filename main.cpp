@@ -17,15 +17,24 @@
 #include "PreflowPushRandom/PreflowPushRandom.h"
 #include "PreflowPushFIFO/PreflowPushFIFO.h"
 #include "PreflowPushHighestLabel/PreflowPushHighestLabel.h"
+#include "Timer.h"
 
 
 using namespace std;
 
 void printHelp() {
-    std::cout << "Usage: $ ./preflowPush -f [graph] -a [Random|FIFO|Highest-Label|Excess-Scaling|Run-Tests]" << std::endl;
+    std::cout << "Usage: $ ./preflowPush -f [graph] -a [Random|FIFO|Highest-Label|Excess-Scaling]" << std::endl;
+    std::cout << "Usage: $ ./preflowPush -a Run-Tests" << std::endl;
 }
 
-int main(int argc, char** argv) {        
+int main(int argc, char** argv) {
+    if (argc == 3 && string(argv[1]) == "-a" && string(argv[2]) == "Run-Tests")
+    {
+        cout << "Running tests..." << endl;
+        ProblemTest tester;
+        return tester.run();
+        
+    }
     if (argc < 5 || string(argv[1]) != string("-f") || string(argv[3]) != string("-a"))
     {
         printHelp();
@@ -38,9 +47,17 @@ int main(int argc, char** argv) {
     Graph inputGraph(in);
     in.close();
     cerr << "Finished reading graph file from disk. " << endl;
+    
+    cerr << "Graph statistics:" << endl;
+    cerr << "\tNumber of nodes: "  << inputGraph.getNumberOfNodes() << endl;
+    cerr << "\tNumber of edges: " << inputGraph.getNumberOfEdges() << endl;
+    cerr << "\tAverage degree: " << inputGraph.getAverageDegree() << endl;
+    cerr << "\tDensity: " << inputGraph.getDensity() << endl;
 
     string algType = argv[4];
     
+    Timer t;
+    t.start();
     if (algType == "Random"){
          cerr << "Initializing algorithm" << endl;
         PreflowPushRandom pfr(&inputGraph);
@@ -62,16 +79,19 @@ int main(int argc, char** argv) {
         
     }
     else if (algType == "Highest-Label"){
+        cerr << "Initializing algorithm" << endl;
         PreflowPushHighestLabel pfhl(&inputGraph);
+        cerr << "Finished initializing algorithm. Now calculating max flow" << endl;
         pfhl.exec();
-        cerr << pfhl.getMaxFlow() << endl;
+        cerr << "Finished calculating max flow." << endl;
+        cerr << "Max flow is: " << pfhl.getMaxFlow() << endl;
     }
     else if (algType == "Excess-Scaling"){
         cerr << "Not implemented." << endl;
     }
     else if (algType == "Run-Tests")
     {
-        cout << "Running tests..." << endl;
+        cerr << "Running tests..." << endl;
         ProblemTest tester;
         tester.run();
     } else if (algType == "Moo") {
@@ -85,17 +105,8 @@ int main(int argc, char** argv) {
     {
         std::cout << "Unknown algorithm type." << std::endl;
     }
-   /*
-    Graph g(5,1,5);
-    g.addEdge(1,2,3,0);
-    g.addEdge(1,3,3,0);
-    g.addEdge(2,4,2,0);
-    g.addEdge(3,4,2,0);
-    g.addEdge(4,5,1,0);
-    cout << g << endl;
-    PreflowPushRandom pfg(&g);
-    pfg.exec();
-    pfg.print();*/
+    t.stop();
+    cout << "Execution took " << t.duration() << "ms" << endl;
     return 0;
 }
 

@@ -2,6 +2,10 @@
  * File:   PreflowPushGeneric.cpp
  * Author: Tilman Wittl
  * 
+ * Base class for PreflowPush implementations. This class mainly provides
+ * Push and Lift operations. The invocation order of these operations is
+ * controlled by subclasses.
+ * 
  * Created on 2. Juli 2012, 11:41
  */
 
@@ -9,7 +13,13 @@
 #include "Graph.h"
 #include <algorithm>
 
-
+/**
+ * Constructor.
+ *  
+ * Initializes internal data structures with given graph.
+ * 
+ * @param graph Graph for which to calculate max flow
+ */
 PreflowPushGeneric::PreflowPushGeneric(Graph* graph) {
 
     // erste vier Zeilen
@@ -18,6 +28,10 @@ PreflowPushGeneric::PreflowPushGeneric(Graph* graph) {
     //(*this).updateReducedNetwork();
 }
 
+/**
+ * Initialize data structure.
+ * 
+ */
 void PreflowPushGeneric::init() {
     int a = (*this).g->getNumberOfNodes();
     (*this).source = (*this).g->getSource();
@@ -39,8 +53,6 @@ void PreflowPushGeneric::init() {
     // PreflowPush: step 3
     (*this).h[(*this).source] = a;
 
-    
-    
     // PreflowPush: step 4
     std::vector<int> neighborsOf = (*this).g->getNeighbors(source);
     for (int i = 0; i < neighborsOf.size(); i++) {
@@ -51,10 +63,12 @@ void PreflowPushGeneric::init() {
     }
     // initialize reduced network
     (*this).reduced = new Graph(a,0,0);
-    // call updateReducedNetwork for good measure 
     (*this).updateReducedNetwork();
 }
 
+/**
+ * Initialize reduced network.
+ */
 void PreflowPushGeneric::updateReducedNetwork() {
     //compute reduced network. c.f. Cormen et. al, 2001
     for(int u=0; u<(*this).g->getNumberOfNodes(); u++) {
@@ -67,22 +81,47 @@ void PreflowPushGeneric::updateReducedNetwork() {
     }
 }
 
+/**
+ * 
+ * Returns residual capacity between nodes u and v from residual graph.
+ * 
+ * This is the rest capacity.
+ * 
+ * @param u Node u
+ * @param v Node v
+ * @return residual capacity
+ */
 int PreflowPushGeneric::cf(int u, int v) {
     return ((*this).g->getCapacity(u,v)-(*this).f[u][v]);
 }
 
-
-int PreflowPushGeneric::getH(int idx) {
-    return (*this).h[idx];
+/**
+ * Returns height of node u
+ * 
+ * @param u
+ * @return 
+ */
+int PreflowPushGeneric::getH(int u) {
+    return (*this).h[u];
 }
 
 /**
  * 
- * This method returns true if the push operation was possible.
+ * Push operation.
  * 
- * @param u
- * @param v
- * @return bool indicating modification of state
+ * This pushes flow from node u to node v.
+ * 
+ * It is further described on page 80 in chapter 6.3 of Reinelt's script.
+ * 
+ * This method returns true if the push operation was possible.
+ * The following criteria need to be met:
+ * - u must be higher than v
+ * - there must be residual capacity from u to v
+ * - u must be active
+ * 
+ * @param u Node u
+ * @param v node v
+ * @return bool Whether push operation was successful
  */
 bool PreflowPushGeneric::push(int u, int v) {
     if((*this).isActive(u) && (*this).h[u]==(*this).h[v]+1 && (*this).cf(u,v) >0) {
@@ -106,7 +145,16 @@ bool PreflowPushGeneric::push(int u, int v) {
 }
 
 /**
- * This method returns true if the lift operation was possible. 
+ * 
+ * Lift operation.
+ * 
+ * This operation lifts a node u to allow for
+ * more Push operations.
+ * 
+ * This method returns true if the lift operation was possible.
+ * The following criteria must be met:
+ * - u must be active
+ * - no edge (u,v) in the residual graph with h[u] > h[v]
  * 
  * @param u
  * @return bool indicating modification of state
@@ -145,13 +193,31 @@ bool PreflowPushGeneric::lift(int u) {
 }
 
 
+/**
+ * Checks whether a given node u is active.
+ * 
+ * A node is considered active if it is overflowing (and neither source nor
+ * target).
+ * 
+ * @param u Node u
+ * @return true or false
+ */
 bool PreflowPushGeneric::isActive(int u) {
     return (u!=(*this).source && u!=(*this).target && (*this).e[u]>0);
 }
-
+/**
+ * Runs the algorithm. After this method returns,
+ * @getMaxFlow() can be called to obtain the maximum amount of flow
+ * between source and target.
+ * 
+ * Overriden by subclasses.
+ * 
+ */
 void PreflowPushGeneric::exec() { 
 }
-
+/**
+ * Prints various informations on the graph to stdout.
+ */
 void PreflowPushGeneric::print() {
     std::cout << "h" << std::endl;
     for(int i=0; i<(*this).h.size(); i++) {
@@ -173,13 +239,28 @@ void PreflowPushGeneric::print() {
     }
 }
 
+/**
+ * Returns the max flow between source and target.
+ * 
+ * The @exec() method must be run first.
+ * 
+ * @return max flow between source and target
+ */
 int PreflowPushGeneric::getMaxFlow(){
     return this->e[this->target];
 }
 
+/**
+ * Copy constructor.
+ * 
+ * @param orig
+ */
 PreflowPushGeneric::PreflowPushGeneric(const PreflowPushGeneric& orig) {
 }
 
+/**
+ * Constructor.
+ */
 PreflowPushGeneric::~PreflowPushGeneric() {
 }
 

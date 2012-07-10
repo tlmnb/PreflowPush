@@ -16,6 +16,7 @@ public:
     Graph(std::ifstream& inFile);
     void addEdge(int u, int v, int cuv, int cvu);
     int getNumberOfNodes();
+    int getNumberOfEdges();
     std::vector<std::vector<bool> > getAdjacencyMatrix();
     std::vector<std::vector<int> > getCapacityMatrix();
     int getSource();
@@ -25,10 +26,13 @@ public:
     bool hasEdge(int u, int v);
     bool hasUndirectedEdge(int u, int v);
     void deleteEdge(int u, int v);
+    double getDensity();
+    double getAverageDegree();
 private:
     int numberOfNodes;
     int source;
     int target;
+    int edgeCount;
     std::vector<std::vector<bool> > adj; //adjacency matrix
     std::vector<std::vector<int> > cap; //capacity matrix
     friend std::ostream& operator<<(std::ostream&, const Graph&);
